@@ -6,10 +6,18 @@ import { useEffect, useState } from "react";
 import { Avatar, Flex, ToggleButton } from "@/once-ui/components";
 import styles from "@/app/components/Header.module.scss";
 
+import { JetBrains_Mono } from "next/font/google";
+
 type TimeDisplayProps = {
   timeZone: string;
   locale?: string;
 };
+
+const code = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const TimeDisplay: React.FC<TimeDisplayProps> = ({
   timeZone,
@@ -37,7 +45,11 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({
     return () => clearInterval(intervalId);
   }, [timeZone, locale]);
 
-  return <>{currentTime}</>;
+  return (
+    <span className={code.variable} style={{ fontFamily: "var(--font-mono)" }}>
+      {currentTime}
+    </span>
+  );
 };
 
 export default TimeDisplay;
@@ -72,6 +84,7 @@ export const Header = () => {
         shadow="l"
         padding="4"
         justifyContent="center"
+        translate="yes"
       >
         <Flex gap="4" textVariant="body-default-s">
           <ToggleButton prefixIcon="home" href="/" selected={pathname === "/"}>
@@ -105,7 +118,7 @@ export const Header = () => {
         fillWidth
         justifyContent="flex-end"
         alignItems="center"
-        textVariant="body-default-m"
+        textVariant="body-default-l"
       >
         <TimeDisplay timeZone="Asia/Kolkata" />
       </Flex>

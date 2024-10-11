@@ -31,7 +31,12 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure }) => {
         left: "0",
         top: "50%",
         transform: "translateY(-50%)",
+        overflowY: "auto",
+        overflowX: "hidden",
+        height: "75vh",
         whiteSpace: "nowrap",
+        scrollbarWidth: "none",
+        scrollBehavior: "smooth",
       }}
       position="fixed"
       paddingLeft="24"

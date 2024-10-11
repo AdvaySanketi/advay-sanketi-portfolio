@@ -7,7 +7,11 @@ import { Flex, Background } from "@/once-ui/components";
 import { Footer, Header } from "@/app/components";
 
 import { Inter } from "next/font/google";
+import { Raleway } from "next/font/google";
+import { Yatra_One } from "next/font/google";
+import { Josefin_Sans } from "next/font/google";
 import { Source_Code_Pro } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 
 import DynamicAccentUpdater from "@/app/components/dynamicUpdater";
 
@@ -38,7 +42,19 @@ export const metadata: Metadata = {
   },
 };
 
-const primary = Inter({
+const inter = Inter({
+  variable: "--font-primary",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const raleway = Raleway({
+  variable: "--font-primary",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
   variable: "--font-primary",
   subsets: ["latin"],
   display: "swap",
@@ -77,7 +93,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       data-surface="translucent"
       data-transition="all"
       className={classNames(
-        primary.variable,
+        raleway.variable,
         secondary ? secondary.variable : "",
         tertiary ? tertiary.variable : "",
         code.variable
