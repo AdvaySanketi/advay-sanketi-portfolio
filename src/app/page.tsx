@@ -124,9 +124,8 @@ export default function Home() {
         </Flex>
       </Flex>
       <RevealFx translateY="16" delay={0.6}>
-        <Projects range={[1, 1]} />
+        <Projects selectedIndexes={[4, 3, 1]} />
       </RevealFx>
-      <Projects range={[2]} />
     </Flex>
   );
 }

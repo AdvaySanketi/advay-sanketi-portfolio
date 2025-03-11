@@ -63,7 +63,7 @@ export default function Work() {
           }),
         }}
       />
-      <Projects />
+      <Projects selectedIndexes={[6, 3, 4, 5, 1, 9, 2, 7, 8]} />
     </Flex>
   );
 }

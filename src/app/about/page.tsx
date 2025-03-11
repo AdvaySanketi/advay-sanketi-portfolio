@@ -41,7 +41,7 @@ const about = {
     experiences: [
       {
         company: "Twospoon.ai",
-        timeframe: "May 2024 - Present",
+        timeframe: "Apr 2024 - Present",
         role: "Software Development Intern",
         achievements: [
           <>

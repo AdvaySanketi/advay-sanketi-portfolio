@@ -15,20 +15,22 @@ interface ProjectCardProps {
   href: string;
   images: string[];
   title: string;
-  client: string;
+  stack: string;
   content: string;
   description: string;
   avatars: { src: string }[];
+  github?: string;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
   href,
   images = [],
   title,
-  client,
+  stack,
   content,
   description,
   avatars,
+  github,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -68,7 +70,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
   return (
     <Flex fillWidth gap="m" direction="column">
-      <Flex onClick={handleImageClick}>
+      <Flex
+        onClick={handleImageClick}
+        style={{ width: "100%", overflow: "hidden" }}
+      >
         <RevealFx
           style={{ width: "100%" }}
           delay={0.4}
@@ -82,6 +87,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             aspectRatio="16 / 9"
             src={images[activeIndex]}
             style={{
+              width: "100%", // Ensure the image takes full width
+              objectFit: "cover", // Ensures that the image maintains its aspect ratio and fills the container without getting cut off
               border: "1px solid var(--neutral-alpha-weak)",
               ...(images.length > 1 && {
                 cursor: "pointer",
@@ -142,13 +149,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   onBackground="neutral-weak"
                   marginX="2"
                 >
-                  {client}
+                  {stack}
                 </Text>
               </Flex>
             )}
             {description?.trim() && (
               <Text
-                wrap="balance"
+                wrap="wrap"
                 variant="body-default-s"
                 onBackground="neutral-weak"
               >
@@ -156,13 +163,24 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               </Text>
             )}
             {content?.trim() && (
-              <SmartLink
-                suffixIcon="chevronRight"
-                style={{ margin: "0", width: "fit-content" }}
-                href={href}
-              >
-                <Text variant="body-default-s">Read more</Text>
-              </SmartLink>
+              <Flex justifyContent="space-between" fillWidth>
+                <SmartLink
+                  suffixIcon="chevronRight"
+                  style={{ margin: "0", width: "fit-content" }}
+                  href={href}
+                >
+                  <Text variant="body-default-s">Read more</Text>
+                </SmartLink>
+                {github && (
+                  <SmartLink
+                    suffixIcon="github"
+                    style={{ margin: "0", width: "fit-content" }}
+                    href={github}
+                  >
+                    <Text variant="body-default-s">Github</Text>
+                  </SmartLink>
+                )}
+              </Flex>
             )}
           </Flex>
         )}

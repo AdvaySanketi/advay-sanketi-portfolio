@@ -4,10 +4,10 @@ import { Flex } from "@/once-ui/components";
 import { ProjectCard } from "@/app/components";
 
 interface ProjectsProps {
-  range?: [number, number?];
+  selectedIndexes?: number[];
 }
 
-export function Projects({ range }: ProjectsProps) {
+export function Projects({ selectedIndexes }: ProjectsProps) {
   let allProjects = getPosts(["src", "app", "projects", "project-files"]);
 
   const sortedProjects = allProjects.sort((a, b) => {
@@ -17,8 +17,8 @@ export function Projects({ range }: ProjectsProps) {
     );
   });
 
-  const displayedProjects = range
-    ? sortedProjects.slice(range[0] - 1, range[1] ?? sortedProjects.length)
+  const displayedProjects = selectedIndexes
+    ? selectedIndexes.map((index) => sortedProjects[index - 1])
     : sortedProjects;
 
   return (
@@ -29,12 +29,13 @@ export function Projects({ range }: ProjectsProps) {
           href={`/projects/${post.slug}`}
           images={post.metadata.images}
           title={post.metadata.title}
-          client={post.metadata.client}
+          stack={post.metadata.stack}
           description={post.metadata.summary}
           content={post.content}
           avatars={
             post.metadata.team?.map((member) => ({ src: member.avatar })) || []
           }
+          github={post.metadata.github}
         />
       ))}
     </Flex>

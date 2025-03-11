@@ -11,12 +11,13 @@ type Team = {
 
 type Metadata = {
   title: string;
-  client: string;
+  stack: string;
   publishedAt: string;
   summary: string;
   image?: string;
   images: string[];
   team: Team[];
+  github: string | undefined;
 };
 
 function getMDXFiles(dir: string) {
@@ -37,11 +38,12 @@ function readMDXFile(filePath: string) {
 
   const metadata: Metadata = {
     title: data.title || "",
-    client: data.client || "Anonymous",
+    stack: data.stack || "",
     publishedAt: data.publishedAt,
     summary: data.summary || "",
     images: data.images || [],
     team: data.team || [],
+    github: data.github || "",
   };
 
   return { metadata, content };

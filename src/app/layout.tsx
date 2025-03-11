@@ -16,6 +16,7 @@ import { JetBrains_Mono } from "next/font/google";
 import DynamicAccentUpdater from "@/app/components/dynamicUpdater";
 
 import { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://advay-sanketi-portfolio.vercel.app"),
@@ -125,6 +126,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </Flex>
         <Footer />
       </Flex>
+      <Analytics />
     </Flex>
   );
 }
