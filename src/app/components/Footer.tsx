@@ -41,7 +41,7 @@ export const Footer = () => {
         alignItems="center"
       >
         <Text variant="body-default-s" onBackground="neutral-strong">
-          <Text onBackground="neutral-weak">© 2023 /</Text>
+          <Text onBackground="neutral-weak">© 2025 /</Text>
           <Text paddingX="4">Advay Sanketi</Text>
           <Text onBackground="neutral-weak">
             / Building the future, one line of code at a time.

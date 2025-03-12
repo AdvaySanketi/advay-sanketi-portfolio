@@ -45,6 +45,103 @@ Building this project required overcoming several technical challenges:
 
 These challenges provided deep insights into AI-driven data processing, full-stack development, and efficient search implementations.
 
-## Outcome
+## Deep Dive: The Architecture of Meta Ads Project
 
-The Meta Ads Project successfully delivers a powerful ad analytics platform that can be extended to multiple domains. With an intuitive UI and an AI-driven backend, this project demonstrates expertise in data engineering, AI integration, and scalable system design.
+The **Meta Ads Project** is a fully automated AI-powered pipeline that collects, processes, and analyzes Meta (Facebook) ad data, specifically for the skincare and beauty industry. This system is designed for large-scale ad data ingestion, AI-based enrichment, and advanced vector search for high-relevance ad recommendations.
+
+### 1. **Ad Collection & Data Pipeline**
+
+#### **1.1 Scraping Meta Ads Library**
+
+- Utilizes **requests** and **BeautifulSoup** with dynamic proxy handling to avoid IP bans.
+- Implements **async scraping** (via `aiohttp`) to efficiently gather ad data in parallel.
+- Filters ads based on **predefined industry-specific keywords** (extracted dynamically using NLP techniques) to focus on relevant data.
+
+#### **1.2 Ad Metadata Extraction**
+
+- Extracts structured metadata like **ad copy, engagement metrics, image/video URLs, and advertiser details**.
+- Uses **LangChain's document loaders** to process text-heavy ad descriptions efficiently.
+
+#### **1.3 Storage in MongoDB**
+
+- Each ad is stored as a **document** in MongoDB with fields:
+  ```json
+  {
+    "ad_id": "12345",
+    "company": "Brand XYZ",
+    "text": "Introducing our new skincare formula...",
+    "image_url": "https://fbcdn.com/ad_image.jpg",
+    "video_url": "https://fbcdn.com/ad_video.mp4",
+    "engagement": { "likes": 1200, "shares": 340, "comments": 450 },
+    "timestamp": "2024-03-10T12:30:00Z"
+  }
+  ```
+- Uses **Indexing (TTL + Compound Indexes)** for efficient querying.
+- Ad descriptions are **vectorized and stored as embeddings**.
+
+### 2. **AI-Powered Enrichment & Analysis**
+
+#### **2.1 Company Profiling with LLMs**
+
+- Identifies the **parent company** of an ad and fetches additional details.
+- Uses **GPT-4** or **Claude** API to generate a company summary, ensuring consistency in brand information.
+
+#### **2.2 Content Analysis**
+
+- Applies **zero-shot classification** (via OpenAI API) to categorize ad intent:
+  - **Brand Awareness**
+  - **Product Promotion**
+  - **Discount/Offer Campaigns**
+  - **User-Generated Content (UGC) Promotions**
+- Sentiment analysis using **TextBlob** or **VADER** to determine audience reaction.
+
+#### **2.3 Image & Video Processing**
+
+- **OpenCV + PIL** for basic media preprocessing.
+- **FFmpeg** for handling video compression and frame extraction.
+- **CLIP (Contrastive Language–Image Pretraining)** for multimodal ad analysis, linking text captions to image content.
+
+### 3. **Vector Search & Retrieval (FAISS)**
+
+#### **3.1 Embedding Generation**
+
+- Text embeddings are generated via **OpenAI’s text-embedding-ada-002 model**.
+- Image embeddings via **CLIP** to ensure multimodal searchability.
+- Each ad’s text and media content are converted into **1280-dimensional embeddings**.
+
+#### **3.2 FAISS Indexing & Query Processing**
+
+- FAISS (Facebook AI Similarity Search) is used for **efficient nearest-neighbor search**.
+- Ad embeddings are indexed using **IVF (Inverted File Index) + HNSW (Hierarchical Navigable Small World)** graph for fast lookup.
+- **Approximate Nearest Neighbor (ANN) Search** enables ultra-fast retrieval even with **millions of ads**.
+
+```python
+import faiss
+import numpy as np
+
+# Load stored embeddings
+index = faiss.read_index("ads_faiss.index")
+query_embedding = model.embed("best anti-aging serum for dry skin")
+d, I = index.search(np.array([query_embedding]), k=5)  # Top 5 matches
+```
+
+### 4. **Real-Time Dashboard (Streamlit)**
+
+#### **4.1 Interactive Ad Exploration**
+
+- Users can **search by keyword, brand, or ad type**.
+- **Dynamic charts (Plotly/Matplotlib)** visualize ad trends over time.
+
+#### **4.2 Querying with Natural Language**
+
+- Supports **semantic search** ("Show me trending skincare ads") using FAISS + OpenAI.
+- **Filters ads by sentiment, engagement, or region**.
+
+## Links
+
+- [Github](https://github.com/AdvaySanketi/meta-ads-project)
+- [Website](https://ts-meta-ads.streamlit.app/)
+
+## **Conclusion**
+
+The Meta Ads Project is an end-to-end AI-powered ad analytics solution integrating **scraping, AI enrichment, vector search, and real-time analytics** into a seamless pipeline. By leveraging advanced NLP, multimodal embeddings, and FAISS-based retrieval, it offers deep insights into Meta Ads while maintaining **high efficiency and scalability**.

@@ -36,6 +36,150 @@ Building CodeX from the ground up provided a deep understanding of how interpret
 
 Understanding memory management and how garbage collection is handled in interpreted languages was also a crucial learning experience. The project involved balancing simplicity with powerful features like object-oriented programming, which added complexity to both the language design and its interpreter.
 
-## Outcome
+## Deep Dive: The Architecture of CodeX
 
-CodeX was a rewarding project that gave me a much deeper technical insight into language design, parsing, and runtime execution. It highlights my programming skills and technical knowledge in understanding how programming languages function. CodeX serves as a proof of concept for building small-scale languages, offering a foundational understanding that could be extended to larger language projects in the future.
+### 1. **Language Architecture**
+
+CodeX follows a **multi-stage interpretation process**, ensuring structured execution from raw source code to runtime evaluation. The core architecture consists of:
+
+#### **🔹 Lexical Analysis (Tokenization)**
+
+- Converts raw source code into **tokens**.
+- Uses a **regular expression-based tokenizer** to break down keywords, identifiers, operators, literals, and symbols.
+- Example Tokenization:
+  ```
+  let x = 10;
+  ```
+  Converts to tokens:
+  ```
+  [ {type: 'KEYWORD', value: 'let'}, {type: 'IDENTIFIER', value: 'x'},
+    {type: 'OPERATOR', value: '='}, {type: 'NUMBER', value: '10'}, {type: 'SEMICOLON', value: ';'} ]
+  ```
+
+#### **🔹 Parsing (Abstract Syntax Tree - AST Generation)**
+
+- The parser converts tokens into an **Abstract Syntax Tree (AST)**.
+- AST structures the logic of the code, enabling execution.
+- Example:
+  ```codex
+  class Animal {
+      func speak() {
+          print("Hello");
+      }
+  }
+  ```
+  Gets parsed into an AST structure like:
+  ```
+  {
+      type: "ClassDeclaration",
+      name: "Animal",
+      body: [
+          {
+              type: "FunctionDeclaration",
+              name: "speak",
+              body: [{ type: "PrintStatement", value: "Hello" }]
+          }
+      ]
+  }
+  ```
+
+#### **🔹 Semantic Analysis (Type Checking & Validation)**
+
+- Since CodeX is **statically-typed**, type checking occurs before execution.
+- Example:
+  ```codex
+  let x: int = "hello";  // Throws a TypeError
+  ```
+
+#### **🔹 Interpretation & Execution**
+
+- The interpreter **traverses the AST**, executing nodes dynamically.
+- CodeX uses an **execution stack**, tracking variables and function calls.
+
+### 2. **Object-Oriented Design**
+
+CodeX enforces **pure object-oriented principles**, meaning:
+
+- Everything is an **object** (variables, classes, functions, etc.).
+- Supports **inheritance, encapsulation, and polymorphism**.
+- Classes and methods are first-class citizens.
+
+Example:
+
+```codex
+class Person {
+    let name: string;
+
+    func init(name: string) {
+        this.name = name;
+    }
+
+    func greet() {
+        print("Hello, my name is " + this.name);
+    }
+}
+let p = new Person("Advay");
+p.greet();  // Output: Hello, my name is Advay
+```
+
+### 3. **Memory Management**
+
+Although CodeX is interpreted, it has a **basic garbage collection (GC) system**:
+
+- Uses **reference counting** to deallocate memory.
+- Automatically cleans up objects no longer in use.
+- Prevents circular references with **weak references**.
+
+Example:
+
+```codex
+func createPerson() {
+    let temp = new Person("John");
+}
+// 'temp' object is automatically garbage collected when function exits.
+```
+
+### 4. **Runtime Environment**
+
+CodeX is **command-line driven**, meaning:
+
+- Users write `.codex` files and execute them via `codex filename.codex`.
+- Has a built-in **Read-Eval-Print Loop (REPL)** for interactive execution.
+- Provides standard library functions for I/O, math, and collections.
+
+Example:
+
+```sh
+$ codex
+CodeX REPL v1.0
+>> let x: int = 5;
+>> print(x * 2);
+10
+```
+
+### 5. **Error Handling**
+
+CodeX includes a structured error-handling mechanism:
+
+- **Compile-time Errors** (Syntax, Type, Scope errors)
+- **Runtime Errors** (Null references, Undefined variables, Division by zero)
+- **Custom Exception Handling**
+- But Custom Exceptions cannot be created
+
+Example:
+
+```codex
+try {
+    let y: int = 10 / 0;
+} catch (e) {
+    print("Error: Division by zero!");
+}
+```
+
+## Links
+
+- [Github](https://github.com/AdvaySanketi/codex)
+
+## Conclusion
+
+CodeX is a powerful **interpreted, object-oriented, statically-typed** language designed for experimentation with **language design and implementation**. By building CodeX, I gained deep insights into **parsing, memory management, type checking, and runtime execution**—foundational knowledge for future projects. 🚀

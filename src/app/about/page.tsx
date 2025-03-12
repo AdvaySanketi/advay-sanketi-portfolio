@@ -60,24 +60,6 @@ const about = {
             width: 16,
             height: 9,
           },
-          {
-            src: "/images/work/social_dashboard.png",
-            alt: "Twospoon.ai",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/work/kerosene_website.png",
-            alt: "Twospoon.ai",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/work/kerosene_app.png",
-            alt: "Twospoon.ai",
-            width: 16,
-            height: 9,
-          },
         ],
       },
       {
@@ -226,7 +208,7 @@ const about = {
           <>
             <p>Bachelor of Technology - BTech, Computer Science</p>
             <p>2022 - 2026</p>
-            <p>CGPA: 9.15</p>
+            <p>CGPA: 9.2</p>
           </>
         ),
       },

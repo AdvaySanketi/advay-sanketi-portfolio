@@ -46,6 +46,64 @@ I also gained deep insights into:
 - Optimizing API calls to reduce latency.
 - Enhancing UI/UX for a clean and engaging experience.
 
+## Deep Dive: The Architecture of Nitha
+
+### 1️⃣ **Cross-Platform Architecture with Flutter & Dart**
+
+Nitha is built using **Flutter**, leveraging its **single codebase** to deliver a **high-performance** and **native-like** experience on both Android and iOS. The app is structured using the **MVVM (Model-View-ViewModel) pattern**, ensuring clean separation of concerns, better maintainability, and testability.
+
+🔹 **Key Considerations:**
+
+- Used **Dart isolates** to handle background tasks without blocking the UI.
+- Optimized UI rendering using **const constructors and widget refactoring** to avoid unnecessary rebuilds.
+- Implemented **Flutter’s Skia rendering engine** for smooth animations and transitions.
+
+### 2️⃣ **Seamless Music Playback & Background Audio Management**
+
+Handling **continuous playback** and **background audio** is one of the biggest challenges in music streaming apps. Nitha uses **Just Audio + Audio Service** to support:
+
+- **Gapless playback** for an uninterrupted experience.
+- **Background audio with media controls** (lock screen & notifications).
+- **Automatic buffering & caching** to minimize latency.
+- **Adaptive streaming** to switch between different bitrates dynamically.
+
+🔹 **Technical Breakdown:**
+
+- Implemented **preloading & lazy loading** of the next track for instant playback.
+- Integrated **system-wide media controls** via **Android Media Session API**.
+- Used **ExoPlayer (Android)** under the hood via Just Audio.
+
+### 3️⃣ **Bypassing Ads & Subscription Restrictions**
+
+Nitha sources music from **multiple platforms (Spotify, Saavn, YouTube, etc.)** without ads or paywalls. This is achieved using a **multi-source music aggregation engine**, which:
+
+- **Fetches direct streaming URLs** from public APIs & reverse-engineered endpoints.
+- **Circumvents rate limits & captchas** using rotating proxies & request header spoofing.
+- **Extracts high-quality audio** from video sources like YouTube using `yt-dlp`.
+
+🔹 **Challenges & Solutions:**
+
+- **YouTube API limits** - Used **server-side proxying + CDN caching** to reduce request overhead.
+- **DRM-locked content** - Prioritized **open/free sources** while ensuring high bitrate availability.
+- **Metadata inconsistency** - Implemented **LLM-powered (GPT-4) metadata normalization** for accurate song tagging.
+
+### 5️⃣ **Offline Playback with Smart Caching**
+
+Nitha allows users to **download songs for offline playback**, using a combination of:
+
+- **SQLite (structured metadata storage)** for tracking downloaded songs.
+- **Hive (key-value storage)** for quick access to cached songs.
+
+🔹 **Optimizations:**
+
+- **LRU Cache Eviction**: Automatically removes least-used songs when storage is full.
+- **Background Download Queue**: Songs download in the background using **Flutter WorkManager**.
+- **Fast Resume**: Partially downloaded songs resume from the last checkpoint.
+
+## Links
+
+- [Github](https://github.com/AdvaySanketi/nitha)
+
 ## Outcome
 
 Nitha successfully provides a free, high-quality, and ad-free music streaming experience. With a smooth UI, offline playback, and no subscriptions, it stands as a solid alternative to mainstream platforms.

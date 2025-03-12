@@ -34,14 +34,6 @@ With a Flutter frontend, a Next.js Website, a Node.js backend, and a MongoDB dat
 - **Backend**: Built with Node.js and Express, handling authentication, data storage, and recommendations.
 - **Database**: MongoDB for storing user preferences, research papers, and bookmarks.
 
-## AI-Powered Enhancements
-
-Kerosene leverages OpenAI's API to:
-
-- Extract keywords from papers for better search results.
-- Generate concise summaries for quick understanding.
-- Improve recommendation accuracy through intelligent filtering.
-
 ## Challenges and Learnings
 
 Building Kerosene involved tackling:
@@ -50,6 +42,75 @@ Building Kerosene involved tackling:
 - **Smooth user experience**: Using Flutter's state management for seamless navigation.
 - **Scalability**: Ensuring the recommendation system performs well with large datasets.
 
-## Outcome
+## Deep Dive: The Architecture of Kerosene
+
+### 1️⃣ **Application Structure**
+
+Kerosene consists of **four** core components:
+
+- **Flutter Mobile App** 📱 (Primary research tool)
+- **Next.js Website** 🌐 (Landing page + bookmark sharing)
+- **Node.js Backend** ⚡ (API + AI processing)
+- **Population Script** 🛠️ (Fills database with research papers)
+
+### 2️⃣ **Mobile App: Features & UI Flow**
+
+The **Flutter app** has **13 screens**, handling user authentication, recommendations, search, bookmarking, journal subscriptions, and profile settings.
+
+#### 🏁 **User Onboarding & Authentication**
+
+- Users sign in via **Google or ORCID**.
+- **Onboarding screens** (with interactive categories) personalize recommendations.
+
+#### 🔍 **AI-Powered Research Paper Discovery**
+
+- **Home Screen:** "For You" tab (AI-based recommendations) & "Following" tab (journals user follows).
+- **Search Screen:** Keyword-based + AI-boosted search.
+- **Paper Details Screen:** Shows AI-generated summary & metadata.
+- **Bookmarks & Journal Subscriptions:** Papers can be saved for later reading, and journals can be followed.
+
+#### ⚙️ **User Profile & Preferences**
+
+- Users can update **reading preferences**, manage bookmarks, and view followed journals.
+
+### 3️⃣ **Website: Bookmark Sharing & Legal Pages**
+
+The **Next.js website** serves two main purposes:
+
+- Acts as a **landing page** for Kerosene.
+- Allows users to **share bookmarks** using a **Bookmark ID**, making collaboration easier.
+
+### 4️⃣ **Backend API: Node.js + MongoDB**
+
+The backend is built with **Node.js + Express** and a **MongoDB** database.
+
+📌 **Main Backend Features:**  
+✔️ **User Authentication:** Login via **Google** or **ORCID**.  
+✔️ **Recommendation System:** AI-powered research paper suggestions.  
+✔️ **Bookmarks & Journal Management:** Save and retrieve saved content.  
+✔️ **Search API:** Supports keyword-based queries.  
+✔️ **Journal Subscription System:** Follow/unfollow journals.  
+✔️ **AI-Powered Summarization:** Extracts key insights from papers.
+
+#### 🔗 **Key API Routes**
+
+- Authentication: Handled by ./routes/auth.
+- Papers: Handled by ./routes/papers.
+- Bookmarks: Handled by ./routes/bookmark.
+- Journal: Handled by ./routes/journal.
+
+### 5️⃣ **AI-Powered Enhancements**
+
+Kerosene leverages **OpenAI’s API** for:  
+🔹 **Paper Summarization** – Generates concise abstracts.  
+🔹 **Keyword Extraction** – Improves search accuracy.  
+🔹 **Personalized Recommendations** – AI filters relevant research papers.
+
+## Links
+
+- [Github](https://github.com/AdvaySanketi/Kerosene)
+- [Website](https://kerosene.app/)
+
+## Conclusion
 
 Kerosene successfully provides an AI-powered, user-friendly, and efficient research tool. It streamlines academic content discovery, making it easier for users to stay updated with the latest papers.
