@@ -3,10 +3,11 @@
 Welcome to my **portfolio website**, where I showcase my **projects, skills, and experience** as a **Full Stack Developer**.
 
 🌟 **Tech Stack**:  
-✔ Full Stack Development (Web & Mobile)  
-✔ Backend Systems & Databases  
-✔ Machine Learning & AI Integration  
-✔ UI/UX Design
+✔ Next.js & TypeScript  
+✔ React Three Fiber / Three.js (custom shaders)  
+✔ GSAP scroll & reveal animation  
+✔ MDX-authored project deep dives  
+✔ Tailwind CSS
 
 📌 **Live Website**: [advay-sanketi-portfolio.vercel.app](https://advay-sanketi-portfolio.vercel.app/)
 
@@ -37,6 +38,8 @@ For those interested in the **architecture and tech details**, each project also
 - Database schema & API flow
 - Performance optimizations & scalability
 - Technical challenges & solutions
+
+Every project is authored as an MDX file under `content/projects/`, so the writing and the deep dive live in the same place — check `content/projects/*.mdx` to see one in full.
 
 Make sure to check it out!
 
@@ -81,6 +84,13 @@ To preview the production build locally:
 
 ```sh
 npm run start
+```
+
+To lint and type-check before pushing:
+
+```sh
+npm run lint
+npm run typecheck
 ```
 
 ---

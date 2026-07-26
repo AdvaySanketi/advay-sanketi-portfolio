@@ -11,3 +11,4 @@ next-env.d.ts
 tsconfig.tsbuildinfo
 content/tba
 content/Projects.*
+src/app/projects/project-files
