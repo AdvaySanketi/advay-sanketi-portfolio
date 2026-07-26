@@ -1,132 +1,98 @@
-import "@/once-ui/styles/index.scss";
-import "@/once-ui/tokens/index.scss";
+import type { Metadata } from "next";
+import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 
-import classNames from "classnames";
+import "./globals.css";
 
-import { Flex, Background } from "@/once-ui/components";
-import { Footer, Header } from "@/app/components";
+import { site } from "@/data/site";
+import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Cursor } from "@/components/Cursor";
+import { Grain } from "@/components/Grain";
+import { Preloader } from "@/components/Preloader";
 
-import { Inter } from "next/font/google";
-import { Raleway } from "next/font/google";
-import { Yatra_One } from "next/font/google";
-import { Josefin_Sans } from "next/font/google";
-import { Source_Code_Pro } from "next/font/google";
-import { JetBrains_Mono } from "next/font/google";
-
-import DynamicAccentUpdater from "@/app/components/dynamicUpdater";
-
-import { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
-
-export const metadata: Metadata = {
-  metadataBase: new URL("https://advay-sanketi-portfolio.vercel.app"),
-  title: "Advay Sanketi - That's Me",
-  description: "Portfolio website showcasing my work as a Full-Stack Developer",
-  openGraph: {
-    title: `Advay Sanketi's Portfolio`,
-    description: "Portfolio website showcasing my work.",
-    url: "advay-sanketi-portfolio.vercel.app",
-    siteName: `Advay Sanketi's Portfolio`,
-    locale: "en_IN",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-};
-
-const inter = Inter({
-  variable: "--font-primary",
+const sans = Inter({
   subsets: ["latin"],
+  variable: "--font-sans",
   display: "swap",
 });
 
-const raleway = Raleway({
-  variable: "--font-primary",
+const display = Instrument_Serif({
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-display",
   display: "swap",
 });
 
 const mono = JetBrains_Mono({
-  variable: "--font-primary",
   subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
   display: "swap",
 });
 
-type FontConfig = {
-  variable: string;
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} — ${site.role}`,
+    template: `%s — ${site.name}`,
+  },
+  description: site.description,
+  openGraph: {
+    type: "website",
+    url: site.url,
+    siteName: site.name,
+    title: `${site.name} — ${site.role}`,
+    description: site.description,
+    images: [{ url: `/og?title=${encodeURIComponent(site.name)}` }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — ${site.role}`,
+    description: site.description,
+    images: [`/og?title=${encodeURIComponent(site.name)}`],
+  },
 };
 
-const secondary: FontConfig | undefined = undefined;
-const tertiary: FontConfig | undefined = undefined;
+/**
+ * Runs before first paint. Reveal animations start from `opacity: 0`, but that
+ * starting state is only allowed once this script confirms JS is running and
+ * motion is wanted — so a failed bundle or a reduced-motion preference leaves
+ * every element visible rather than blank.
+ */
+const MOTION_GUARD = `
+try {
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('motion-ready');
+  }
+} catch (e) {}
+`;
 
-const code = Source_Code_Pro({
-  variable: "--font-code",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-interface RootLayoutProps {
+export default function RootLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+}) {
   return (
-    <Flex
-      as="html"
+    <html
       lang="en"
-      background="page"
-      data-neutral="slate"
-      data-brand="emerald"
-      data-accent="emerald"
-      data-solid="color"
-      data-solid-style="flat"
-      data-theme="dark"
-      data-border="playful"
-      data-surface="translucent"
-      data-transition="all"
-      className={classNames(
-        raleway.variable,
-        secondary ? secondary.variable : "",
-        tertiary ? tertiary.variable : "",
-        code.variable
-      )}
+      className={`${sans.variable} ${display.variable} ${mono.variable}`}
     >
-      <DynamicAccentUpdater />
-      <Flex
-        style={{ minHeight: "100vh" }}
-        as="body"
-        fillWidth
-        margin="0"
-        padding="0"
-        direction="column"
-      >
-        <Background />
-        <Flex fillWidth minHeight="16"></Flex>
-        <Header />
-        <Flex
-          zIndex={0}
-          fillWidth
-          paddingY="l"
-          paddingX="l"
-          justifyContent="center"
-          flex={1}
-        >
-          <Flex justifyContent="center" fillWidth minHeight="0">
-            {children}
-          </Flex>
-        </Flex>
-        <Footer />
-      </Flex>
-      <Analytics />
-    </Flex>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: MOTION_GUARD }} />
+      </head>
+      <body>
+        <Preloader />
+        <Cursor />
+        <Grain />
+
+        <SmoothScroll>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+        </SmoothScroll>
+      </body>
+    </html>
   );
 }

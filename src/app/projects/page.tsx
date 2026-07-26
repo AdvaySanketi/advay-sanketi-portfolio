@@ -1,43 +1,31 @@
-import { getPosts } from "@/app/utils";
-import { Flex } from "@/once-ui/components";
-import { Projects } from "@/app/projects/components/Projects";
+import type { Metadata } from "next";
 
-export function generateMetadata() {
-  const title = "Advay Sanketi - That's Me";
-  const description = "Projects by Advay Sanketi";
-  const ogImage = `https://advay-sanketi-portfolio.vercel.app/og?title=${encodeURIComponent(
-    title
-  )}`;
+import { ProjectIndex } from "@/components/projects/ProjectIndex";
+import { Reveal, SplitText } from "@/components/Reveal";
+import { getProjects, getStacks, formatYear } from "@/lib/projects";
+import { site } from "@/data/site";
 
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      url: `https://advay-sanketi-portfolio.vercel.app/projects`,
-      images: [
-        {
-          url: ogImage,
-          alt: title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogImage],
-    },
-  };
-}
+export const metadata: Metadata = {
+  title: "Work",
+  description: `Projects by ${site.name} — AI systems, developer tools, and cross-platform apps.`,
+  alternates: { canonical: "/projects" },
+};
 
-export default function Work() {
-  let allProjects = getPosts(["src", "app", "projects", "project-files"]);
+export default function ProjectsPage() {
+  const projects = getProjects();
+  const stacks = getStacks();
+
+  const items = projects.map((project) => ({
+    slug: project.slug,
+    title: project.metadata.title,
+    stack: project.metadata.stack,
+    summary: project.metadata.summary,
+    year: formatYear(project.metadata.publishedAt),
+    image: project.metadata.images[0],
+  }));
 
   return (
-    <Flex fillWidth maxWidth="m" direction="column">
+    <>
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -45,25 +33,31 @@ export default function Work() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            headline: "My projects",
-            description: "Projects by Advay Sanketi",
-            url: `https://advay-sanketi-portfolio.vercel.app/projects`,
-            image: `advay-sanketi-portfolio.vercel.app/og?title=My%20Projects`,
-            author: {
-              "@type": "Person",
-              name: "Advay Sanketi",
-            },
-            hasPart: allProjects.map((project) => ({
+            headline: "Work",
+            description: `Projects by ${site.name}`,
+            url: `${site.url}/projects`,
+            hasPart: projects.map((project) => ({
               "@type": "CreativeWork",
               headline: project.metadata.title,
               description: project.metadata.summary,
-              url: `https://advay-sanketi-portfolio.vercel.app/projects/${project.slug}`,
-              image: `advay-sanketi-portfolio.vercel.app/${project.metadata.image}`,
+              url: `${site.url}/projects/${project.slug}`,
             })),
           }),
         }}
       />
-      <Projects selectedIndexes={[6, 3, 4, 5, 1, 9, 2, 7, 8]} />
-    </Flex>
+
+      <section className="shell pt-36 md:pt-48">
+        <div className="flex items-end justify-between gap-6 pb-12">
+          <SplitText as="h1" text="Work" className="display block" trigger="mount" />
+          <span className="label pb-4">
+            {String(projects.length).padStart(2, "0")} projects
+          </span>
+        </div>
+
+        <Reveal>
+          <ProjectIndex items={items} stacks={stacks} />
+        </Reveal>
+      </section>
+    </>
   );
 }

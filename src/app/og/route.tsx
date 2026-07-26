@@ -2,108 +2,84 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
+/**
+ * Social card. Matches the site's paper/ink palette rather than the old dark
+ * card, so shared links look like the site they lead to.
+ *
+ * /og?title=Advay%20Sanketi&sub=Full-Stack%20Developer
+ */
 export async function GET(request: Request) {
-  let url = new URL(request.url);
-  let title = url.searchParams.get("title") || "Portfolio";
-  const font = fetch(
+  const url = new URL(request.url);
+  const title = url.searchParams.get("title") || "Advay Sanketi";
+  const sub = url.searchParams.get("sub") || "Full-Stack Developer";
+
+  const fontData = await fetch(
     new URL("../../../public/fonts/Inter.ttf", import.meta.url)
   ).then((res) => res.arrayBuffer());
-  const fontData = await font;
 
   return new ImageResponse(
     (
       <div
         style={{
+          position: "relative",
           display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
           width: "100%",
           height: "100%",
-          padding: "8rem",
-          background: "#151515",
+          padding: "5rem 5.5rem",
+          background: "#f2f0ea",
+          color: "#14140f",
+          fontFamily: "Inter",
         }}
       >
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            gap: "4rem",
-            fontFamily: "Inter",
-            fontStyle: "normal",
-            color: "white",
+            fontSize: "1.75rem",
+            fontWeight: 600,
+            letterSpacing: "0.35rem",
+            textTransform: "uppercase",
+            opacity: 0.45,
           }}
         >
-          <span
-            style={{
-              fontSize: "8rem",
-              lineHeight: "8rem",
-              letterSpacing: "-0.05em",
-              whiteSpace: "pre-wrap",
-              textWrap: "balance",
-            }}
-          >
-            {title}
-          </span>
+          Advay Sanketi
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: "5rem",
+              fontSize: title.length > 24 ? "5.5rem" : "7.5rem",
+              fontWeight: 700,
+              lineHeight: 1.02,
+              letterSpacing: "-0.28rem",
             }}
           >
-            <img
-              src={
-                "https://advay-sanketi-portfolio.vercel.app/images/avatar.jpg"
-              }
-              style={{
-                width: "12rem",
-                height: "12rem",
-                objectFit: "cover",
-                borderRadius: "100%",
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.75rem",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "4.5rem",
-                  lineHeight: "4.5rem",
-                  whiteSpace: "pre-wrap",
-                  textWrap: "balance",
-                }}
-              >
-                Advay Sanketi
-              </span>
-              <span
-                style={{
-                  fontSize: "2.5rem",
-                  lineHeight: "2.5rem",
-                  whiteSpace: "pre-wrap",
-                  textWrap: "balance",
-                  opacity: "0.6",
-                }}
-              >
-                Full-Stack Developer
-              </span>
-            </div>
+            {title}
+          </div>
+          <div style={{ display: "flex", fontSize: "2.25rem", opacity: 0.55 }}>
+            {sub}
           </div>
         </div>
+
+        {/* Accent rule along the bottom edge. */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            bottom: 0,
+            width: "100%",
+            height: "14px",
+            background: "#3f5b3a",
+          }}
+        />
       </div>
     ),
     {
-      width: 1920,
-      height: 1080,
-      fonts: [
-        {
-          name: "Inter",
-          data: fontData,
-          style: "normal",
-        },
-      ],
+      width: 1200,
+      height: 630,
+      fonts: [{ name: "Inter", data: fontData, style: "normal" }],
     }
   );
 }

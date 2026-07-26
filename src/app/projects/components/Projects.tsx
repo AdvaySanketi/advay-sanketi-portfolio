@@ -5,9 +5,10 @@ import { ProjectCard } from "@/app/components";
 
 interface ProjectsProps {
   selectedIndexes?: number[];
+  selectedSlugs?: string[];
 }
 
-export function Projects({ selectedIndexes }: ProjectsProps) {
+export function Projects({ selectedIndexes, selectedSlugs }: ProjectsProps) {
   let allProjects = getPosts(["src", "app", "projects", "project-files"]);
 
   const sortedProjects = allProjects.sort((a, b) => {
@@ -17,8 +18,19 @@ export function Projects({ selectedIndexes }: ProjectsProps) {
     );
   });
 
-  const displayedProjects = selectedIndexes
-    ? selectedIndexes.map((index) => sortedProjects[index - 1])
+  // Prefer selecting by slug (stable) over index (fragile when dates tie).
+  const displayedProjects = selectedSlugs
+    ? selectedSlugs
+        .map((slug) => sortedProjects.find((project) => project.slug === slug))
+        .filter((project): project is (typeof sortedProjects)[number] =>
+          Boolean(project)
+        )
+    : selectedIndexes
+    ? selectedIndexes
+        .map((index) => sortedProjects[index - 1])
+        .filter((project): project is (typeof sortedProjects)[number] =>
+          Boolean(project)
+        )
     : sortedProjects;
 
   return (
