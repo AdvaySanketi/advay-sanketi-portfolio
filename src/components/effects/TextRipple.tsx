@@ -4,25 +4,6 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 import { prefersReducedMotion } from "@/lib/gsap";
 
-/**
- * A cursor wake that distorts text.
- *
- * Two stacked copies of the same text: the base reads normally, and a warped
- * duplicate on top is revealed only through a soft circular mask that follows
- * the pointer. Where the cursor is, the letters bend; everywhere else they're
- * untouched.
- *
- * Built on an SVG displacement filter rather than WebGL on purpose:
- *   - The text stays real text — selectable, searchable, and read by screen
- *     readers. Rendering a headline into a canvas texture would lose all three.
- *   - The filter itself is static, so the browser rasterises it once. Only the
- *     mask position changes per frame, which is a compositor property. The
- *     usual way this effect gets slow is animating `baseFrequency`, forcing the
- *     whole filter to re-render every frame — this never does that.
- *   - No third WebGL context on a page that already has two.
- *
- * The duplicate is `aria-hidden`, so the text is announced exactly once.
- */
 export function TextRipple({
   children,
   className,
@@ -30,7 +11,6 @@ export function TextRipple({
 }: {
   children: ReactNode;
   className?: string;
-  /** Radius of the distorted region, in px. */
   radius?: number;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -59,7 +39,6 @@ export function TextRipple({
     };
 
     const onLeave = () => {
-      // Park the mask far outside the box so nothing is distorted.
       root.style.setProperty("--ripple-x", "-9999px");
       root.style.setProperty("--ripple-y", "-9999px");
     };
@@ -91,11 +70,6 @@ export function TextRipple({
   );
 }
 
-/**
- * Filter definition. Static: `feTurbulence` generates a fixed noise field once
- * and `feDisplacementMap` pushes pixels along it. Rendered inline so the filter
- * travels with the component.
- */
 function RippleFilter() {
   return (
     <svg className="text-ripple__defs" aria-hidden="true" focusable="false">

@@ -4,16 +4,6 @@ import { useEffect, useRef } from "react";
 
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
-/**
- * Two-part cursor: a dot pinned to the pointer and a ring that trails it with
- * easing. Over an interactive element the ring widens and picks up the accent
- * colour.
- *
- * The ring stays an outline at all times and never fills, so it can't obscure
- * the content underneath it. Bails out completely on coarse pointers and when
- * reduced motion is set — the native cursor is never hidden, so there is no
- * state in which the user is left without one.
- */
 export function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);

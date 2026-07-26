@@ -55,12 +55,6 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * Runs before first paint. Reveal animations start from `opacity: 0`, but that
- * starting state is only allowed once this script confirms JS is running and
- * motion is wanted — so a failed bundle or a reduced-motion preference leaves
- * every element visible rather than blank.
- */
 const MOTION_GUARD = `
 try {
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

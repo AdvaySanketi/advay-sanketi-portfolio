@@ -2,12 +2,6 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-/**
- * Generated project cover (16:9). Used as a fallback "poster" for projects
- * that don't have real screenshots yet.
- *
- * /cover?title=LUNA&sub=Flutter%20%C2%B7%20Mistral%20AI&cat=Mobile&c1=10b981&c2=064e3b
- */
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const title = url.searchParams.get("title") || "Project";
@@ -35,7 +29,6 @@ export async function GET(request: Request) {
           overflow: "hidden",
         }}
       >
-        {/* radial highlight */}
         <div
           style={{
             position: "absolute",
@@ -43,7 +36,6 @@ export async function GET(request: Request) {
             background: `radial-gradient(circle at 78% 22%, rgba(255,255,255,0.25), rgba(255,255,255,0) 55%)`,
           }}
         />
-        {/* oversized translucent glyph */}
         <div
           style={{
             position: "absolute",
@@ -58,7 +50,6 @@ export async function GET(request: Request) {
         >
           {glyph}
         </div>
-        {/* bottom scrim */}
         <div
           style={{
             position: "absolute",
@@ -67,7 +58,6 @@ export async function GET(request: Request) {
               "linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 100%)",
           }}
         />
-        {/* content */}
         <div
           style={{
             position: "relative",

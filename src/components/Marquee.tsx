@@ -1,8 +1,3 @@
-/**
- * Seamless CSS marquee. The track is duplicated and translated by exactly
- * -100% of its own width, so the loop has no visible seam. Pure CSS, so it
- * costs nothing on the main thread and pauses under `prefers-reduced-motion`.
- */
 export function Marquee({
   items,
   duration = 36,
@@ -35,7 +30,6 @@ export function Marquee({
 
   return (
     <div className={`marquee ${className ?? ""}`} data-direction={direction}>
-      {/* Screen readers get the list once, in plain order. */}
       <span className="sr-only">{items.join(", ")}</span>
       {track}
       {track}

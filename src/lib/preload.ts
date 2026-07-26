@@ -1,11 +1,3 @@
-/**
- * Handoff between the intro curtain and the hero animation.
- *
- * Kept as a module-level constant plus a DOM class (rather than React context)
- * so any component can ask "has the intro finished?" synchronously on mount,
- * including ones that render before the Preloader's effects run.
- */
-
 export const PRELOAD_DONE_EVENT = "preload:done";
 
 export function markPreloadDone() {

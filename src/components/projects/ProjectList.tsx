@@ -9,18 +9,6 @@ export type ProjectListItem = {
   image?: string;
 };
 
-/**
- * The project index as a typographic list.
- *
- * Hovering a row dims its siblings and expands that row to reveal the summary,
- * with an accent rule drawing across underneath. Deliberately no preview
- * imagery: the generated covers added nothing a reader wanted, and a floating
- * panel that follows the cursor sits on top of the very text it is describing.
- *
- * All of it is CSS (see `.project-row` in globals.css), so this stays a server
- * component and ships no JavaScript. `:focus-visible` mirrors every hover rule,
- * so keyboard users get the same reveal.
- */
 export function ProjectList({ items }: { items: ProjectListItem[] }) {
   if (!items.length) {
     return (
@@ -58,7 +46,6 @@ export function ProjectList({ items }: { items: ProjectListItem[] }) {
               </span>
             </div>
 
-            {/* Expands on hover; always open where there is no hover. */}
             <div className="project-row__reveal md:pl-[3rem]">
               <p className="max-w-[70ch] text-sm leading-relaxed text-muted">
                 {item.summary}

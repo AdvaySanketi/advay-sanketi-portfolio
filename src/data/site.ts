@@ -1,11 +1,3 @@
-/**
- * Every piece of non-project content on the site.
- *
- * Carried over from the previous portfolio's `about/page.tsx`, which held this
- * as inline JSX. Here it is plain serialisable data so it can be rendered by
- * server or client components, reused across pages, and fed to JSON-LD.
- */
-
 export const site = {
   name: "Advay Sanketi",
   role: "Full-Stack Developer",
@@ -23,9 +15,7 @@ export const site = {
     "For me code is more than just a set of instructions — it's a powerful tool that enables us not only to explore amazing opportunities but also to create new possibilities allowing for a future with a higher promise. A vision worthy of working towards.",
     "I also enjoy listening to music, watching anime, staying fit & healthy and reading about really interesting stuff like Lumination Encoding, Evolutionary Algorithms, the Dreamer Algorithm and Conway's Game of Life.",
   ],
-  /** Shown on the home page, in order. */
   featuredProjects: ["kerosene", "meta-ads-project", "mixtape"],
-  /** The hero's rotating "currently" line — one facet at a time. */
   currently: [
     "building AI systems",
     "shipping developer tools",
@@ -81,9 +71,7 @@ export type Experience = {
   company: string;
   role: string;
   timeframe: string;
-  /** Flat bullet points, used when the role has no nested sub-roles. */
   achievements: string[];
-  /** Used by roles that bundle several positions (e.g. club leadership). */
   roles?: SubRole[];
   images: WorkImage[];
 };

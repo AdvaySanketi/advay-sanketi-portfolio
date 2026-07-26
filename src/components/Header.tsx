@@ -8,17 +8,12 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { nav, site, socials } from "@/data/site";
 import { Magnetic } from "@/components/Magnetic";
 
-/**
- * Header that hides on scroll-down and returns on scroll-up, plus a full-screen
- * menu on small viewports.
- */
 export function Header() {
   const pathname = usePathname();
   const barRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 
-  // Hide-on-scroll-down.
   useEffect(() => {
     const bar = barRef.current;
     if (!bar || prefersReducedMotion()) return;
@@ -44,12 +39,10 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close the menu on navigation.
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  // Lock scroll and trap Escape while the menu is open.
   useEffect(() => {
     if (!open) return;
 

@@ -6,26 +6,12 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { PRELOAD_DONE_EVENT, isPreloadDone } from "@/lib/preload";
 import { useIsoLayoutEffect } from "@/hooks/useIsoLayoutEffect";
 
-/**
- * Scroll-triggered reveals.
- *
- * Two safety rules run through this file:
- *   1. The hidden starting state is only applied once JS has confirmed it can
- *      animate (`html.motion-ready`, set by an inline script in the document
- *      head). Without JS, or with reduced motion, content renders visible.
- *   2. Every animation is created inside a `gsap.context` and reverted on
- *      unmount, so navigating away can't leave orphaned ScrollTriggers.
- */
-
 type RevealProps = {
   children: ReactNode;
   as?: ElementType;
   className?: string;
-  /** Seconds. */
   delay?: number;
-  /** Starting Y offset in px. */
   y?: number;
-  /** Fraction of the viewport at which it fires. */
   start?: string;
 };
 
@@ -73,8 +59,6 @@ export function Reveal({
   );
 }
 
-/* ------------------------------------------------------------------ */
-
 type SplitTextProps = {
   text: string;
   as?: ElementType;
@@ -82,24 +66,9 @@ type SplitTextProps = {
   delay?: number;
   stagger?: number;
   start?: string;
-  /**
-   * What starts the animation:
-   *   "scroll"  — when it enters the viewport (default)
-   *   "mount"   — immediately
-   *   "preload" — once the intro curtain has lifted
-   */
   trigger?: "scroll" | "mount" | "preload";
 };
 
-/**
- * Word-by-word masked reveal — each word sits in an overflow-hidden box and
- * slides up from below it.
- *
- * GSAP's SplitText plugin does this at the line level, but line splitting
- * requires measuring after layout and re-measuring on every resize, which is a
- * common source of "text disappeared" bugs. Word-level splitting is
- * measurement-free, reads almost identically, and survives reflow.
- */
 export function SplitText({
   text,
   as: Tag = "span",
@@ -149,7 +118,6 @@ export function SplitText({
       }, el);
     };
 
-    // Waiting on the curtain: if it has already lifted, start straight away.
     if (trigger === "preload" && !isPreloadDone()) {
       window.addEventListener(PRELOAD_DONE_EVENT, play, { once: true });
       return () => {
@@ -171,10 +139,7 @@ export function SplitText({
             display: "inline-block",
             overflow: "hidden",
             verticalAlign: "bottom",
-            // Room for descenders, so the mask doesn't clip a "g" or "y".
             paddingBottom: "0.14em",
-            // A literal space would collapse against the inline-block edge,
-            // so word gaps are drawn with margin instead.
             marginRight: i < words.length - 1 ? "0.26em" : undefined,
           }}
         >

@@ -11,13 +11,6 @@ export function slugify(input: string): string {
 
 export type TocEntry = { title: string; slug: string };
 
-/**
- * Pulls the `##` headings out of raw MDX for the article sidebar.
- *
- * Read off the source rather than the rendered output because the page is a
- * server component — there is no DOM to query, and doing it here keeps the
- * table of contents in the initial HTML.
- */
 export function getToc(source: string): TocEntry[] {
   const entries: TocEntry[] = [];
   let inFence = false;

@@ -5,13 +5,6 @@ import { useRef } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsoLayoutEffect } from "@/hooks/useIsoLayoutEffect";
 
-/**
- * A paragraph that inks in word by word as it passes through the viewport,
- * scrubbed directly to scroll position.
- *
- * Words start at low opacity rather than a different colour so the effect
- * degrades to plain readable text if the animation never runs.
- */
 export function ScrollText({
   text,
   className,
@@ -57,8 +50,6 @@ export function ScrollText({
 
   return (
     <p ref={ref} className={className}>
-      {/* Rendered at full opacity; GSAP sets the dimmed start state itself, so
-          the text stays readable if the animation never runs. */}
       {words.map((word, i) => (
         <span key={`${word}-${i}`} data-scroll-word>
           {word}

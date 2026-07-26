@@ -5,13 +5,6 @@ import { useRef } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsoLayoutEffect } from "@/hooks/useIsoLayoutEffect";
 
-/**
- * Full-bleed ink panel that breaks up the paper. The section grows from a
- * rounded, inset card to the full width of the viewport as it scrolls through,
- * so the colour inversion arrives as a movement rather than a hard cut.
- *
- * The words then ink in on their own scrub, one beat behind the panel.
- */
 export function StatementBreak({
   eyebrow,
   text,

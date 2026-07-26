@@ -1,22 +1,5 @@
 import { BufferAttribute, BufferGeometry } from "three";
 
-/**
- * Builds a round brilliant-cut diamond.
- *
- * three.js has no gem primitive, and an octahedron doesn't read as one — a real
- * brilliant has a flat **table** on top, a shallow **crown** of facets angling
- * down to the widest ring (the **girdle**), then a deep **pavilion** tapering to
- * a single point. That silhouette is what makes it recognisable.
- *
- * The girdle is scalloped — alternating vertices sit slightly above and below
- * the waist — which is what produces the zig-zag triangular facets a real stone
- * has, rather than a ring of identical quads.
- *
- * The geometry is deliberately **non-indexed**: every triangle owns its three
- * vertices, so `computeVertexNormals` gives each facet a single flat normal.
- * That is what keeps the edges razor-sharp instead of smoothing them into a
- * blob, and it means the faceting survives regardless of material settings.
- */
 export function createBrilliantCut({
   segments = 8,
   tableRadius = 0.54,
@@ -31,7 +14,6 @@ export function createBrilliantCut({
     positions.push(x, y, z);
   };
 
-  // Table ring: `segments` vertices around the flat top.
   const table: [number, number, number][] = [];
   for (let i = 0; i < segments; i++) {
     const angle = (i / segments) * Math.PI * 2;
@@ -42,7 +24,6 @@ export function createBrilliantCut({
     ]);
   }
 
-  // Girdle ring: twice as many vertices, alternating high and low.
   const girdleCount = segments * 2;
   const girdle: [number, number, number][] = [];
   for (let j = 0; j < girdleCount; j++) {
@@ -70,11 +51,8 @@ export function createBrilliantCut({
   for (let i = 0; i < segments; i++) {
     const next = (i + 1) % segments;
 
-    // Table, as a fan from its centre.
     tri(tableCentre, table[next], table[i]);
 
-    // Crown: each table edge spans three girdle vertices, giving the
-    // characteristic alternating bezel and star facets.
     const g0 = girdle[(i * 2) % girdleCount];
     const g1 = girdle[(i * 2 + 1) % girdleCount];
     const g2 = girdle[(i * 2 + 2) % girdleCount];
@@ -84,7 +62,6 @@ export function createBrilliantCut({
     tri(table[next], g1, g2);
   }
 
-  // Pavilion: every girdle edge drops to the single point below.
   for (let j = 0; j < girdleCount; j++) {
     const next = (j + 1) % girdleCount;
     tri(girdle[j], culet, girdle[next]);

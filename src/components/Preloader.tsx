@@ -6,14 +6,6 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { markPreloadDone } from "@/lib/preload";
 import { site } from "@/data/site";
 
-/**
- * Intro curtain with a counter, shown once per tab session.
- *
- * The counter is time-driven rather than tied to real asset progress: real
- * progress stalls unpredictably, and a preloader that can stall is a preloader
- * that can trap the user behind an opaque panel. This one always resolves.
- */
-/** Whether the show/skip decision has already been made this page load. */
 let decided = false;
 
 export function Preloader() {
@@ -22,11 +14,7 @@ export function Preloader() {
   const countRef = useRef<HTMLSpanElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
 
-  // Decided in an effect, not during render, so server and client markup match.
   useEffect(() => {
-    // StrictMode runs mount effects twice in development. Without this guard
-    // the second pass would read back the flag the first pass just wrote and
-    // conclude the intro had already been shown.
     if (decided) return;
     decided = true;
 
@@ -78,8 +66,6 @@ export function Preloader() {
         ease: "expo.inOut",
       });
 
-    // Safety net: if anything above throws or is interrupted, never leave the
-    // curtain covering the page.
     const failsafe = window.setTimeout(() => {
       if (tl.isActive()) tl.progress(1);
       document.documentElement.classList.remove("lenis-stopped");

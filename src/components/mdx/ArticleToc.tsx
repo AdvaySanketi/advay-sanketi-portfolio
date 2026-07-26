@@ -4,13 +4,6 @@ import { useEffect, useState } from "react";
 
 import type { TocEntry } from "@/lib/toc";
 
-/**
- * Sticky table of contents with scrollspy.
- *
- * Uses IntersectionObserver against a band near the top of the viewport rather
- * than scroll-position maths, so it stays correct regardless of Lenis's
- * interpolated scroll position.
- */
 export function ArticleToc({ entries }: { entries: TocEntry[] }) {
   const [activeSlug, setActiveSlug] = useState<string | null>(
     entries[0]?.slug ?? null

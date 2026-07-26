@@ -6,18 +6,6 @@ import { gsap } from "@/lib/gsap";
 import { useIsoLayoutEffect } from "@/hooks/useIsoLayoutEffect";
 import type { Skill } from "@/data/site";
 
-/**
- * Capabilities as a pinned horizontal rail: the section sticks to the viewport
- * while vertical scroll drives the cards sideways.
- *
- * Set up inside `gsap.matchMedia`, so the pin only exists on wide viewports
- * with motion enabled. Everywhere else the same markup falls back to an
- * ordinary vertical stack — no pin, no transform, no horizontal overflow.
- *
- * `invalidateOnRefresh` recomputes the scroll distance from the track's real
- * width on every refresh; hard-coding it breaks the moment a font loads late
- * or the viewport changes.
- */
 export function HorizontalRail({ items }: { items: Skill[] }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);

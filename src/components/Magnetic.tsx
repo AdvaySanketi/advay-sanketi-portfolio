@@ -5,10 +5,6 @@ import { cloneElement, useRef, type ReactElement } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useIsoLayoutEffect } from "@/hooks/useIsoLayoutEffect";
 
-/**
- * Pulls its child toward the pointer while hovered, then springs it back.
- * Wraps a single element and attaches to it directly, so it adds no extra DOM.
- */
 export function Magnetic({
   children,
   strength = 0.35,

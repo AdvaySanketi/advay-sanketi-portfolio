@@ -2,12 +2,6 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-/**
- * Social card. Matches the site's paper/ink palette rather than the old dark
- * card, so shared links look like the site they lead to.
- *
- * /og?title=Advay%20Sanketi&sub=Full-Stack%20Developer
- */
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const title = url.searchParams.get("title") || "Advay Sanketi";
@@ -63,7 +57,6 @@ export async function GET(request: Request) {
           </div>
         </div>
 
-        {/* Accent rule along the bottom edge. */}
         <div
           style={{
             position: "absolute",

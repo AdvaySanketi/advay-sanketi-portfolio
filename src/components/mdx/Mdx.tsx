@@ -4,15 +4,6 @@ import type { ReactNode } from "react";
 
 import { slugify } from "@/lib/toc";
 
-/**
- * MDX renderer for project deep dives.
- *
- * Mirrors the previous site's component map (custom links, images, tables,
- * anchored headings) so the existing `.mdx` files render unchanged — the
- * difference is that styling now comes from the `.prose-mdx` stylesheet rather
- * than per-element component props.
- */
-
 function headingText(children: ReactNode): string {
   if (typeof children === "string") return children;
   if (Array.isArray(children)) return children.map(headingText).join("");
@@ -81,7 +72,6 @@ function MdxImage({ src, alt }: { src?: string; alt?: string }) {
   );
 }
 
-/** Kept for compatibility with MDX files that use `<Table data={...} />`. */
 function Table({ data }: { data: { headers: string[]; rows: string[][] } }) {
   return (
     <div className="overflow-x-auto">

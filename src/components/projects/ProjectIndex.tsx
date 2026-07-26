@@ -4,11 +4,6 @@ import { useMemo, useState } from "react";
 
 import { ProjectList, type ProjectListItem } from "@/components/projects/ProjectList";
 
-/**
- * The full project index with stack filtering. Filtering happens client-side
- * over data already embedded in the page — there are ~20 projects, so this
- * avoids a round trip and keeps every project statically rendered for SEO.
- */
 export function ProjectIndex({
   items,
   stacks,

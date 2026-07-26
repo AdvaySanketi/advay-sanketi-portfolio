@@ -2,12 +2,6 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-/**
- * Project content lives as MDX in `content/projects/*.mdx`, carried over
- * verbatim from the previous site — same frontmatter shape, so existing
- * project files drop in without edits.
- */
-
 export type TeamMember = {
   name: string;
   role: string;
@@ -54,7 +48,6 @@ function readProject(filePath: string): Project {
   };
 }
 
-/** All projects, newest first. */
 export function getProjects(): Project[] {
   if (!fs.existsSync(PROJECTS_DIR)) return [];
 
@@ -73,7 +66,6 @@ export function getProject(slug: string): Project | undefined {
   return getProjects().find((project) => project.slug === slug);
 }
 
-/** Picks specific projects by slug, preserving the order given. */
 export function getProjectsBySlug(slugs: string[]): Project[] {
   const all = getProjects();
   return slugs
@@ -81,7 +73,6 @@ export function getProjectsBySlug(slugs: string[]): Project[] {
     .filter((project): project is Project => Boolean(project));
 }
 
-/** Every distinct technology across all projects, for the index filter. */
 export function getStacks(): string[] {
   const stacks = new Set<string>();
   for (const project of getProjects()) {

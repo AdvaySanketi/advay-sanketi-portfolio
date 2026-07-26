@@ -2,11 +2,6 @@
 
 import { useEffect, useRef } from "react";
 
-/**
- * Hairline progress bar for long-form pages. Reads scroll position on rAF
- * rather than on every scroll event, so it can't thrash layout while Lenis is
- * interpolating.
- */
 export function ReadingProgress() {
   const barRef = useRef<HTMLDivElement>(null);
 
