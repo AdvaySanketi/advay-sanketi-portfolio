@@ -1,32 +1,20 @@
-import { Flex, Heading, Text } from "@/once-ui/components";
+import Link from "next/link";
+
+import { SplitText } from "@/components/Reveal";
 
 export default function NotFound() {
   return (
-    <Flex
-      as="section"
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      padding="l"
-    >
-      <Text marginBottom="s" variant="display-strong-xl">
-        404
-      </Text>
-      <Heading marginBottom="l" variant="display-strong-xs">
-        Looks like you're lost in the digital void!
-      </Heading>
-      <Text
-        marginBottom="l"
-        variant="body-default-l"
-        onBackground="neutral-weak"
-      >
-        The page you're trying to access doesn't exist, but feel free to explore
-        the rest of my work!
-      </Text>
-      <Text variant="body-default-m" onBackground="neutral-strong">
-        Head back to the <a href="/">homepage</a> or check out some of my{" "}
-        <a href="/projects">projects</a>. 🚀
-      </Text>
-    </Flex>
+    <section className="shell flex min-h-[70svh] flex-col justify-center pt-36">
+      <p className="label pb-6">Error 404</p>
+      <SplitText
+        as="h1"
+        text="This page took a wrong turn."
+        className="display block max-w-[12ch]"
+        trigger="mount"
+      />
+      <Link href="/" className="link-wipe display-sm mt-12 inline-block w-fit">
+        Back home →
+      </Link>
+    </section>
   );
 }

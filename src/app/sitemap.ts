@@ -1,18 +1,17 @@
-import { getPosts } from "@/app/utils";
+import type { MetadataRoute } from "next";
 
-export default async function sitemap() {
-  let projects = getPosts(["src", "app", "projects", "project-files"]).map(
-    (post) => ({
-      url: `https://advay-sanketi-portfolio.vercel.app/projects/${post.slug}`,
-      lastModified: post.metadata.publishedAt,
-    })
-  );
+import { getProjects } from "@/lib/projects";
+import { site } from "@/data/site";
 
-  let routes = ["/", "/about", "/projects"].map((route) => ({
-    url: `https://advay-sanketi-portfolio.vercel.app${route}`,
-    lastModified: new Date().toISOString().split("T")[0],
-    priority: route === "/" ? 1.0 : 0.8,
-    changefreq: "daily",
+export default function sitemap(): MetadataRoute.Sitemap {
+  const projects = getProjects().map((project) => ({
+    url: `${site.url}/projects/${project.slug}`,
+    lastModified: project.metadata.publishedAt || new Date(),
+  }));
+
+  const routes = ["", "/projects", "/about"].map((route) => ({
+    url: `${site.url}${route}`,
+    lastModified: new Date(),
   }));
 
   return [...routes, ...projects];

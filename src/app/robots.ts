@@ -1,12 +1,10 @@
-export default function robots() {
+import type { MetadataRoute } from "next";
+
+import { site } from "@/data/site";
+
+export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-      },
-    ],
-    sitemap: `https://advay-sanketi-portfolio.vercel.app/sitemap.xml`,
-    host: "https://advay-sanketi-portfolio.vercel.app",
+    rules: [{ userAgent: "*", allow: "/" }],
+    sitemap: `${site.url}/sitemap.xml`,
   };
 }
