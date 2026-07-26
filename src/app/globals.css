@@ -1,0 +1,630 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ *
+ * Tokens
+ * ------------------------------------------------------------------ */
+
+:root {
+  /* Channel triplets so Tailwind can apply opacity modifiers (bg-ink/20). */
+  --paper-rgb: 242 240 234;
+  --ink-rgb: 20 20 15;
+  --accent-rgb: 63 91 58;
+
+  --paper: rgb(var(--paper-rgb));
+  --paper-deep: #e9e6dd;
+  --ink: rgb(var(--ink-rgb));
+  --muted: rgba(20, 20, 15, 0.62);
+  --faint: rgba(20, 20, 15, 0.38);
+  --rule: rgba(20, 20, 15, 0.14);
+  --accent: rgb(var(--accent-rgb));
+
+  --shell-x: clamp(1.25rem, 4vw, 4.5rem);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  /* Lenis drives scrolling; native smooth-scroll would fight it. */
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+/* Also applied by the preloader, which runs before Lenis exists. */
+.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ *
+ * Typography primitives
+ * ------------------------------------------------------------------ */
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 88rem;
+    margin-inline: auto;
+    padding-inline: var(--shell-x);
+  }
+
+  /* Oversized editorial headline. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    font-size: clamp(3rem, 11vw, 10.5rem);
+  }
+
+  .display-sm {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-size: clamp(2.25rem, 6vw, 4.5rem);
+  }
+
+  /* Small tracked-out label — the "(01)" / "SELECTED WORK" register. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  .lede {
+    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  /* Hero tagline. Mono, so it sits against the serif name rather than
+     competing with it, and echoes the tracked-out labels around the page. */
+  .tagline {
+    font-family: var(--font-mono);
+    font-size: clamp(0.9rem, 1.15vw, 1.0625rem);
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+  }
+
+  .rule {
+    border-top: 1px solid var(--rule);
+  }
+
+  /* Hints that only make sense with a mouse ("drag to orbit"). */
+  .fine-only {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fine-only {
+      display: block;
+    }
+  }
+
+  /* Underline that wipes in from the left on hover. */
+  .link-wipe {
+    position: relative;
+    display: inline-block;
+  }
+  .link-wipe::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.1em;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-expo);
+  }
+  .link-wipe:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Reveal primitives — the initial state lives in CSS so content is
+ * never left invisible if JS fails to boot (see Reveal.tsx).
+ * ------------------------------------------------------------------ */
+
+.js-split {
+  display: block;
+}
+
+.split-line {
+  display: block;
+  overflow: hidden;
+}
+
+.split-line > span {
+  display: block;
+  will-change: transform;
+}
+
+[data-reveal] {
+  opacity: 1;
+}
+
+html.motion-ready [data-reveal] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.motion-ready [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .marquee__track {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Grain + marquee
+ * ------------------------------------------------------------------ */
+
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+  background-image: var(--grain-url);
+  background-size: 180px 180px;
+  animation: grain-shift 0.6s steps(2) infinite;
+}
+
+@keyframes grain-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-2%, 1.5%);
+  }
+  100% {
+    transform: translate(1.5%, -1%);
+  }
+}
+
+.marquee {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+
+.marquee__track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 2rem;
+  padding-right: 2rem;
+  min-width: 100%;
+  animation: marquee-scroll var(--marquee-duration, 36s) linear infinite;
+}
+
+.marquee[data-direction="right"] .marquee__track {
+  animation-direction: reverse;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Text ripple — cursor wake distortion (see TextRipple.tsx)
+ * ------------------------------------------------------------------ */
+
+.text-ripple {
+  position: relative;
+  --ripple-x: -9999px;
+  --ripple-y: -9999px;
+}
+
+.text-ripple__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.text-ripple__warp {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Hidden until JS confirms it can drive the mask, so no-JS visitors never
+     get a stray duplicate layer stacked on the headline. */
+  display: none;
+}
+
+.text-ripple[data-ripple-ready="true"] .text-ripple__warp {
+  display: block;
+  filter: url(#text-ripple-filter);
+  -webkit-mask-image: radial-gradient(
+    circle var(--ripple-r) at var(--ripple-x) var(--ripple-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.65) 45%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    circle var(--ripple-r) at var(--ripple-x) var(--ripple-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.65) 45%,
+    transparent 72%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-ripple__warp {
+    display: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Hero paintbrush cursor
+ *
+ * The hero's cursor is the modelled 3D brush living inside the scene (see
+ * HeroCluster.tsx) — the full-bleed canvas lets it ride the pointer across
+ * the whole section. While it does (data-brush3d, toggled from the frame
+ * loop), the native cursor and the sitewide dot-and-ring both yield; links
+ * inside still get the pointer cursor from the UA stylesheet, which is the
+ * right affordance. When the scene isn't running there is no brush at all,
+ * and the hero keeps the site's normal cursor.
+ * ------------------------------------------------------------------ */
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-brush[data-brush3d="true"] {
+    cursor: none;
+  }
+
+  /* Debug: the dot-and-ring stays visible alongside the brush for now, as a
+     reference to check the brush tip against the true pointer position. */
+}
+
+/* ------------------------------------------------------------------ *
+ * Hero: the "currently" ticker
+ * ------------------------------------------------------------------ */
+
+/* Held back until the name and tagline have had their entrance; entry swaps
+   themselves decode in from a scramble (see HeroTicker.tsx). */
+.hero-ticker {
+  animation: ticker-in 0.8s var(--ease-expo) 1.2s both;
+}
+
+@keyframes ticker-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ticker {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Project list
+ *
+ * Hovering a row dims its siblings and expands that row to reveal its
+ * summary. All CSS — no JS, no images, nothing that can cover the content
+ * the user is reading.
+ * ------------------------------------------------------------------ */
+
+.project-row {
+  transition: opacity 0.5s var(--ease-expo);
+}
+
+.project-list:hover .project-row {
+  opacity: 0.34;
+}
+
+.project-list .project-row:hover,
+.project-list .project-row:focus-visible {
+  opacity: 1;
+}
+
+.project-row__reveal {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s var(--ease-expo), opacity 0.45s var(--ease-expo),
+    margin-top 0.6s var(--ease-expo);
+}
+
+.project-row:hover .project-row__reveal,
+.project-row:focus-visible .project-row__reveal {
+  max-height: 8rem;
+  opacity: 1;
+  margin-top: 0.85rem;
+}
+
+/* Accent rule that draws across the row. */
+.project-row__line {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s var(--ease-expo);
+}
+
+.project-row:hover .project-row__line,
+.project-row:focus-visible .project-row__line {
+  transform: scaleX(1);
+}
+
+/* Without hover there is nothing to reveal, so the summary is always open. */
+@media (hover: none), (pointer: coarse), (max-width: 767px) {
+  .project-list:hover .project-row {
+    opacity: 1;
+  }
+  .project-row__reveal {
+    max-height: none;
+    opacity: 1;
+    margin-top: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-row,
+  .project-row__reveal,
+  .project-row__line {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Cursor — hidden entirely on touch / coarse pointers
+ * ------------------------------------------------------------------ */
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  pointer-events: none;
+  border-radius: 999px;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--ink);
+}
+
+/* Always transparent — an outline only. A filled cursor covers whatever the
+   user is trying to look at, which is the one thing a cursor must not do. */
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  transition: border-color 0.35s var(--ease-expo);
+}
+
+.cursor-ring[data-active="true"] {
+  border-color: var(--accent);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * MDX prose — the deep-dive article body
+ * ------------------------------------------------------------------ */
+
+.prose-mdx {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.prose-mdx > * + * {
+  margin-top: 1.4em;
+}
+
+.prose-mdx h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+.prose-mdx h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 2.25rem;
+}
+
+.prose-mdx h4 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 1.75rem;
+}
+
+.prose-mdx strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.prose-mdx em {
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
+.prose-mdx ul,
+.prose-mdx ol {
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose-mdx li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-top: 0.6em;
+}
+
+.prose-mdx ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.prose-mdx ol {
+  counter-reset: mdx-ol;
+}
+
+.prose-mdx ol > li {
+  counter-increment: mdx-ol;
+}
+
+.prose-mdx ol > li::before {
+  content: counter(mdx-ol, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--faint);
+}
+
+.prose-mdx a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--rule);
+  transition: text-decoration-color 0.3s var(--ease-expo);
+}
+
+.prose-mdx a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.prose-mdx code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+  color: var(--ink);
+}
+
+.prose-mdx pre {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1.25rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+
+.prose-mdx pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+
+.prose-mdx blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.prose-mdx img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.prose-mdx table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.prose-mdx th,
+.prose-mdx td {
+  border-bottom: 1px solid var(--rule);
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+}
+
+.prose-mdx th {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
