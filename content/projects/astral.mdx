@@ -1,0 +1,127 @@
+---
+title: "Astral - Secure AI-powered Communication System + Mobile App"
+stack: "Flutter, Dart, Python"
+publishedAt: "2024-08-15"
+summary: "Astral is a cutting-edge AI-powered communication system designed for sensitive information transmission, featuring a self-healing network and unbreakable encryption. It includes a disguised mobile app that ensures communication security even in hostile environments."
+images:
+  - "/images/projects/astral-4.png"
+team:
+  - name: "Advay Sanketi"
+    role: "Software Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/advaysanketi/"
+github: "https://github.com/AdvaySanketi/astral"
+---
+
+## Overview
+
+Astral is an AI-powered, secure communication system, ensuring the safe transmission of sensitive information across hostile and remote environments. The project integrates AI-based self-healing network infrastructure and encryption that resists even the most sophisticated attacks. Additionally, it features a mobile app with a disguised interface to further enhance operational security.
+
+## Key Features
+
+- **AI-Powered Network**: The system employs AI algorithms to continuously monitor network health and execute self-healing procedures, ensuring communication remains uninterrupted even under attacks or network failures.
+- **Unbreakable Encryption**: Integrated end-to-end encryption mechanisms resistant to cyber threats, ensuring all transmitted data remains secure, confidential, and unbreakable.
+- **Stealth Mobile App**: The app interface is disguised as a solar system information display. Only upon performing a specific combination of gestures does the app reveal its true functionality, further safeguarding against unauthorized access.
+- **Real-time Communication**: Secure text-sharing features, designed for low-bandwidth environments, ensuring real-time communication without sacrificing security.
+
+## Technologies Used
+
+- **Flutter and Dart**: For building the cross-platform mobile application with a seamless user experience.
+- **Python**: To develop the AI engine managing the network infrastructure (Self-Healing Network) and encryption protocols.
+- **AES-256 + Vernam Cipher**: Used a hybrid encryption method to create unbreakable security for data transmission.
+
+## Challenges and Learnings
+
+- **Network Resilience**: The most significant challenge was designing a self-healing network that could operate efficiently even in remote and challenging environments with limited connectivity. AI-powered monitoring and automation played a critical role in overcoming this challenge.
+- **User Interface Security**: Designing a highly secure, disguised mobile app was another challenge. Ensuring that the gesture-triggered access remained foolproof while keeping it user-friendly for authorized personnel was a key learning experience.
+
+## Deep Dive: The Architecture of Astral
+
+Astral is a highly secure AI-powered communication system built on three core pillars:
+
+1. **A self-healing AI-driven network**
+2. **Unbreakable encryption using hybrid cryptographic techniques**
+3. **A stealth-based disguised mobile application**
+
+Each of these components is designed to ensure that communications remain secure, even in **hostile** or **high-risk** environments.
+
+### 1. The AI-Powered Self-Healing Network
+
+The **backbone of Astral** is its **self-healing network**, which is built using a **decentralized mesh topology**. Each device in the network functions as a **node**, and communication flows dynamically between these nodes.
+
+#### 🔹 **Node Monitoring & Failure Detection**
+
+- Every node in the network is classified as **alive** or **dead**.
+- A **central AI-powered controller** constantly probes each node to verify its status.
+- If a node becomes **unresponsive**, the system marks it as **dead** and triggers a rollback mechanism.
+
+#### 🔹 **Automated Self-Healing & Rerouting**
+
+- The AI controller **rolls back the dead node** to the **last known working state** using **stored snapshots of the node’s code**.
+- Once rolled back, the **node is restarted** and reintegrated into the network.
+- While recovery is in progress, **the network dynamically reroutes connections** to maintain seamless communication.
+- This **constant healing mechanism** makes it **extremely difficult for attackers** to compromise the network, as any intrusion attempts are automatically counteracted.
+
+### 2. The Hybrid Encryption System
+
+To ensure **unbreakable security**, Astral employs a **hybrid encryption model** combining:  
+ ✅ **AES-256 (Advanced Encryption Standard)** - A symmetric encryption method used for speed and efficiency.  
+ ✅ **Vernam Cipher (One-Time Pad)** - A theoretically **unbreakable encryption** method when keys are truly random.
+
+#### 🔹 **Encryption Process**
+
+1. **Step 1: AES-256 Encryption**
+
+   - The plaintext message is encrypted using AES-256 with a randomly generated key.
+
+2. **Step 2: Vernam Cipher Layer**
+
+   - The AES-encrypted output is then **XOR-ed** with a **one-time pad key** (Vernam Cipher).
+   - This adds an extra layer of security, making decryption virtually impossible without the exact key.
+
+3. **Step 3: Device-Specific Targeting**
+
+   - Each message contains a **receiver ID**.
+   - The message is broadcasted across the network and **only the intended recipient can decrypt it**, as only their device will have the correct decryption key.
+
+#### 🔹 **Decryption Process**
+
+1. The **receiver ID** is matched with a device.
+2. The **Vernam Cipher layer is reversed** using the one-time pad key.
+3. The **AES-256 decryption** is applied to retrieve the original message.
+4. The message is displayed securely on the app.
+
+🚀 **Why this is powerful?**
+
+- Even if an attacker intercepts the message, they **cannot decrypt it** because they would need **both the AES key and the one-time pad**, which are **only stored on the sender and receiver devices**.
+
+### 3. The Stealth-Based Disguised Mobile Application
+
+Astral’s mobile app is designed with **two layers** to ensure security even if a phone is **seized or compromised**.
+
+#### 🔹 **Layer 1: The Fake "Planets App"**
+
+- On the surface, the app appears to be **a harmless educational tool** about the solar system.
+- Users can browse through **fake astronomy content** about planets.
+- There are **no visible indicators** of any communication functionality.
+
+#### 🔹 **Layer 2: Hidden Secure Communication Interface**
+
+- To access the real messaging system, a user must enter a **3-digit passcode**.
+- Each digit corresponds to a **planet's position in the solar system** (e.g., 3 = Earth, 6 = Saturn).
+- The user must tap the planets in the correct **sequence** and then click an **invisible button** to unlock the real app.
+
+🚀 **Why this is powerful?**
+
+- If an **unauthorized person** opens the app, it will only function as a **solar system viewer** with **no trace** of secure communication features.
+- The hidden mechanism ensures **only authorized users** can access the real encrypted chat interface.
+
+## Links
+
+- [Github](https://github.com/AdvaySanketi/astral)
+
+## Conclusion
+
+Astral is built for **extreme security**. By combining an **AI-powered self-healing network**, a **hybrid encryption model**, and a **stealth-based mobile interface**, it creates an **unbreakable communication system** designed for **high-risk environments**.
+
+This project showcases advanced concepts in **network resilience, cryptographic security, and UI deception techniques**, making it a **cutting-edge solution** in the field of secure communications. 🚀🔐

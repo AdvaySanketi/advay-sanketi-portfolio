@@ -1,0 +1,102 @@
+---
+title: "The Mixtape Project - Retro Music Experience"
+stack: "React.js, Vite.js, Tailwind CSS, Firebase Firestore"
+publishedAt: "2025-03-06"
+summary: "The Mixtape Project is a nostalgic, retro-themed web app that lets users create, play, share and remix mixtapes, simulating the feel of classic cassette tapes with a modern digital twist."
+images:
+  - "/images/projects/mixtape-1.png"
+team:
+  - name: "Advay Sanketi"
+    role: "Software Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/advaysanketi/"
+github: "https://github.com/AdvaySanketi/Mixtape"
+---
+
+## Overview
+
+The Mixtape Project is a creative and interactive web app designed to bring back the charm of old-school mixtapes. Users can curate their own mixtapes, add songs using youtube links, customize labels, and share them with friends. The UI is crafted to resemble vintage cassette players, enhancing the nostalgic experience while ensuring a smooth and modern user experience.
+
+## Key Features
+
+- **Retro-Themed UI**: Designed to replicate the aesthetic and functionality of classic cassette players, complete with animated tape reels and vintage-style buttons.
+- **Custom Mixtape Creation**: Users can add tracks, arrange them in a specific order, and add custom labels.
+- **Seamless Audio Playback**: Built-in audio player with smooth playback transitions.
+- **Cloud Storage Integration**: Mixtapes are stored securely using Firebase, allowing users to save and revisit their collections anytime.
+- **Social Sharing**: Users can share links for their mixtapes, letting friends listen to their curated playlists.
+- **Responsive & Accessible**: Fully optimized for both desktop and mobile, ensuring a smooth experience across devices.
+
+## Technologies Used
+
+- **React.js + Vite.js**: Used for building a fast, interactive, and server-rendered web experience.
+- **Tailwind CSS**: Ensured a sleek, responsive, and retro-inspired UI design.
+- **Firebase Firestore**: Utilized for database storage, and hosting user-generated mixtapes.
+
+## Challenges and Learnings
+
+Developing the Mixtape Project was both a fun and technically enriching experience. The biggest challenge was recreating the retro cassette aesthetic while maintaining a modern, intuitive UI. Another key learning was optimizing Firebase's database structure for efficient mixtape storage and retrieval, ensuring quick load times while keeping user data structured and scalable.
+
+## Deep Dive: The Architecture of Mixtape Project
+
+### 1️⃣ **Application Structure**
+
+The Mixtape Project consists of the following core components:
+
+- **React.js Frontend** (User interface & interactions)
+- **Firebase Firestore** (Database for storing mixtapes & metadata)
+- **YouTube iFrame API** (Handles audio playback)
+
+### 2️⃣ **Frontend: React + Vite for a Smooth Experience**
+
+The frontend is built using **React.js** and **Vite.js**, ensuring fast load times and an interactive UI. The design heavily incorporates **custom CSS** to mimic retro cassette players.
+
+#### **Key UI Features**
+
+- **Cassette UI**: The mixtape interface is built using **pure CSS** to replicate a real cassette tape.
+- **Stereo Player**: Features buttons, animated reels, and a track listing similar to classic tape decks.
+- **Drag & Drop**: Users can rearrange song order via a drag-and-drop feature.
+- **Remix Screen**: Allows users to modify existing mixtapes.
+
+### 3️⃣ **Mixtape Creation & Storage**
+
+Each mixtape is assigned a **unique Mixtape ID**, which enables users to **share and remix** existing mixtapes.
+
+#### 🔗 **How It Works:**
+
+1. Users input **YouTube links**.
+2. The app extracts **YouTube video IDs** from the links.
+3. The mixtape is stored in **Firebase Firestore** with the following schema:
+   ```json
+   {
+     "mixtapeId": "xyz123",
+     "createdAt": "1741194076833"
+     "recipientName": "Retro Hits"
+     "tracks": [
+       { "id": "1", url: "https://youtu.be/xyz" },
+       { "id": "2", url: "https://youtu.be/abc" }
+     ],
+   }
+   ```
+4. The unique **Mixtape ID** allows others to access and remix the mixtape.
+
+### 4️⃣ **Audio Playback via YouTube iFrame API**
+
+- The YouTube **iFrame API** is used for playing songs directly within the app.
+- The player automatically loads and switches between YouTube videos based on the mixtape's tracklist.
+- **Playback Controls**: Users can play, pause, and skip songs within a mixtape.
+
+### 5️⃣ **Performance Optimizations**
+
+- **Lazy Loading**: Mixtape data is fetched dynamically for efficiency.
+- **Vite.js Optimization**: Ensures faster builds and hot module replacement.
+- **CSS Animations**: Optimized for smooth playback UI without unnecessary re-renders.
+- **Firebase Indexing**: Indexed queries enable fast lookup of mixtape data.
+
+## Links
+
+- [Github](https://github.com/AdvaySanketi/Mixtape)
+- [Website](https://mixtape-pi.vercel.app/)
+
+## Conclusion
+
+The Mixtape Project successfully blends nostalgia with modern web technologies, offering users a unique and interactive way to curate and share music. It showcases my expertise in UI/UX design, and frontend development. This project stands as a testament to my ability to craft engaging, visually appealing, and technically sound web applications.

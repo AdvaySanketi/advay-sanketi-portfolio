@@ -1,0 +1,80 @@
+---
+title: "Saarthi - Carpooling App with Advanced Matching and Real-Time Tracking"
+stack: "Flutter, Dart, Blockchain, Python, PostgreSQL"
+publishedAt: "2024-10-05"
+summary: "Saarthi is a mobile application designed to facilitate seamless carpooling by matching passengers with car owners based on travel routes and timings. The app integrates in-app messaging, payment processing, and real-time tracking for an enhanced user experience."
+images:
+  - "/images/projects/saarthi-4.png"
+team:
+  - name: "Advay Sanketi"
+    role: "Software Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/advaysanketi/"
+github: "https://github.com/AdvaySanketi/saarthi"
+---
+
+## Overview
+
+**Saarthi** is a user-friendly carpooling mobile application designed to match passengers with car owners based on their travel routes and timings. The goal was to provide a convenient, eco-friendly, and cost-effective travel solution by optimizing unused vehicle space. Saarthi includes a robust matching function, in-app messaging, secure payment processing, and real-time vehicle tracking, ensuring a seamless carpooling experience for both drivers and passengers.
+
+## Key Features
+
+- **Advanced Matching Function**: Developed a custom algorithm that matches car owners with passengers based on shared routes, proximity, and travel schedules, improving the likelihood of successful carpools.
+- **In-App Messaging**: Saarthi provides a chat feature that allows users to communicate directly within the app, ensuring easy coordination before and during the carpool.
+- **Payment Processing**: Integrated a secure, user-friendly payment system that supports various payment methods, allowing users to split costs automatically.
+- **Real-Time Tracking**: Implemented live tracking using GPS to ensure passengers can monitor the driver’s route and estimated time of arrival (ETA), enhancing safety and convenience.
+- **Blockchain for Trust & Transparency**: Integrated blockchain technology to ensure transparent and secure transaction logging, building trust between drivers and passengers.
+
+## Technologies Used
+
+- **Flutter & Dart**: Used for building the front-end mobile application with a focus on high performance, cross-platform support, and intuitive UI/UX design.
+- **Python**: Leveraged for backend services, including the custom matching algorithm and server-side logic.
+- **Blockchain**: Utilized blockchain technology to securely store transaction data, ensuring trust and transparency in all carpool arrangements.
+
+## Challenges and Learnings
+
+- **Handling Real-Time Ride Requests**: Optimizing **concurrent ride-matching** while keeping response times under **500ms** was a technical hurdle.
+- **Balancing Decentralization & Performance**: Blockchain transactions add security but can slow down operations, so **layer-2 solutions** were explored.
+- **Ensuring GPS Accuracy in Dense Areas**: Implemented **Kalman Filters** to smooth location data and reduce signal noise.
+
+## Deep Dive: The Architecture of Saarthi
+
+#### **Architecture & System Design**
+
+Saarthi is a full-fledged **carpooling ecosystem** that combines **route optimization, real-time tracking, and blockchain transparency** to create a seamless experience for both passengers and drivers.
+
+- **Client (Flutter + Dart)**: Ensures a smooth cross-platform mobile experience with an intuitive UI.
+- **Backend (Python + FastAPI)**: Handles user authentication, ride-matching, payments, and messaging services.
+- **Database (PostgreSQL)**: Stores user profiles, ride history, and live tracking data efficiently.
+- **Blockchain (Ethereum / Hyperledger Fabric)**: Securely logs transactions, reviews, and trust scores for carpool participants.
+
+#### **Advanced Route-Matching Algorithm**
+
+The core of Saarthi is its **AI-powered carpool matching system**, which ensures optimal ride-sharing efficiency:
+
+- **Geospatial Analysis**: Uses **Haversine Formula** and **Graph-Based Route Mapping** to match users with overlapping travel paths.
+- **Time Sensitivity**: Weights ride compatibility based on departure time flexibility, ensuring real-time relevance.
+- **Dynamic Pricing**: Uses **demand-surge modeling** to adjust cost-sharing dynamically based on trip distance and availability.
+
+#### **Blockchain-Powered Trust & Security**
+
+Saarthi leverages blockchain to **eliminate disputes and fraud** in the carpooling process:
+
+- **Immutable Ride & Payment Logs**: Ensures all transactions are tamper-proof.
+- **Decentralized Trust Scores**: Users receive **trust ratings** stored transparently on the blockchain.
+- **Smart Contracts for Payments**: Auto-releases fare amounts only after trip completion, **eliminating manual disputes**.
+
+#### **Real-Time GPS & Safety Mechanisms**
+
+The app integrates **live GPS tracking** to enhance **passenger safety & trip coordination**:
+
+- **Mapbox API + WebSocket Integration**: Achieves low-latency, real-time tracking.
+- **SOS & Emergency Features**: Alerts emergency contacts and authorities in case of unsafe ride conditions.
+
+## Links
+
+- [Github](https://github.com/AdvaySanketi/saarthi)
+
+## Conclusion
+
+Saarthi has been a significant step towards solving real-world transportation issues by providing a modern, tech-driven carpooling solution. Its successful implementation of matching algorithms, payment systems, and real-time tracking makes carpooling not only more convenient but also safer and more transparent for users. Saarthi showcases my ability to develop solutions for practical problems while leveraging cutting-edge technologies.
