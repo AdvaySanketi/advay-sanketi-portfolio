@@ -12,3 +12,4 @@ tsconfig.tsbuildinfo
 content/tba
 content/Projects.*
 src/app/projects/project-files
+models_src
