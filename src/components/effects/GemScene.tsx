@@ -163,12 +163,16 @@ function Gem() {
   );
 }
 
-export default function GemScene() {
+export default function GemScene({ lowPower }: { lowPower?: boolean }) {
   return (
     <Canvas
       camera={{ position: [0, 0, 4], fov: 42 }}
-      dpr={[1, 1.75]}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      dpr={lowPower ? [1, 1.25] : [1, 1.75]}
+      gl={{
+        antialias: !lowPower,
+        alpha: true,
+        powerPreference: "high-performance",
+      }}
       style={{ background: "transparent" }}
       onCreated={(state) => {
         state.gl.setClearColor(new Color(0x000000), 0);

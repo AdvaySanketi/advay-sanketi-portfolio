@@ -48,7 +48,7 @@ export function Hero() {
   return (
     <section
       ref={rootRef}
-      className="hero-brush relative min-h-[100svh] overflow-hidden pb-10 pt-28"
+      className="hero-brush relative min-h-[100svh] overflow-hidden pb-10 pt-20 md:pt-28"
     >
       {/*
         The scene and the left column are laid out inside one shell-aligned
@@ -57,10 +57,12 @@ export function Hero() {
         the hero — the brush paints anywhere in the section — while the
         cluster composes itself into the right column from inside the scene
         (see SCENE_COLUMN in HeroCluster). On mobile it drops back into the
-        flow beneath the name (`order-3`), where the WebGL gate has already
-        swapped it for the static fallback.
+        flow beneath the name (`order-3`) as a shell-width `aspect-[5/4]` box —
+        the scene still renders there (at a reduced quality tier; see the
+        `lowPower` prop threaded from SceneMount), it just isn't full-bleed
+        since there's no side column to paint into.
       */}
-      <div className="shell relative flex min-h-full flex-col gap-14 md:min-h-[calc(100svh-9.5rem)] md:justify-between md:gap-0">
+      <div className="shell relative flex min-h-full flex-col gap-10 md:min-h-[calc(100svh-9.5rem)] md:justify-between md:gap-0">
         {/* The scene's cursor effects are driven by a window pointermove
             listener mapped to the canvas rect (see HeroCluster), so the type
             columns stacked above this layer can't starve it of events. */}
@@ -73,10 +75,10 @@ export function Hero() {
         </div>
 
         <div className="relative z-10 order-1">
-          <p className="label max-w-[16ch]">
-            {site.role}
-            <br />
-            {site.location}
+          <p className="label flex items-baseline justify-between gap-x-4 md:block md:max-w-[16ch]">
+            <span>{site.role}</span>
+            <br className="hidden md:inline" />
+            <span>{site.location}</span>
           </p>
         </div>
 
@@ -97,7 +99,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative z-10 order-4">
+        <div className="relative z-10 order-4 hidden md:block">
           <a
             href="#work"
             data-cursor="Scroll"

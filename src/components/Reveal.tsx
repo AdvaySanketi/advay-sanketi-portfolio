@@ -137,13 +137,17 @@ export function SplitText({
           key={`${word}-${i}`}
           style={{
             display: "inline-block",
+            maxWidth: "100%",
             overflow: "hidden",
             verticalAlign: "bottom",
             paddingBottom: "0.14em",
             marginRight: i < words.length - 1 ? "0.26em" : undefined,
           }}
         >
-          <span data-word-inner style={{ display: "inline-block" }}>
+          <span
+            data-word-inner
+            style={{ display: "inline-block", maxWidth: "100%" }}
+          >
             {word}
           </span>
         </span>

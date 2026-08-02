@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
 import { prefersReducedMotion } from "@/lib/gsap";
-import { canUseWebGL } from "@/lib/webgl";
+import { canUseWebGL, prefersHighQuality3D } from "@/lib/webgl";
 
 const GemScene = dynamic(
   () =>
@@ -39,18 +39,16 @@ function StaticGem() {
 
 export function Gem({ className }: { className?: string }) {
   const [enabled, setEnabled] = useState(false);
+  const [lowPower, setLowPower] = useState(false);
 
   useEffect(() => {
-    setEnabled(
-      window.matchMedia("(min-width: 768px) and (pointer: fine)").matches &&
-        !prefersReducedMotion() &&
-        canUseWebGL()
-    );
+    setEnabled(!prefersReducedMotion() && canUseWebGL());
+    setLowPower(!prefersHighQuality3D());
   }, []);
 
   return (
     <div className={className} aria-hidden="true">
-      {enabled ? <GemScene /> : <StaticGem />}
+      {enabled ? <GemScene lowPower={lowPower} /> : <StaticGem />}
     </div>
   );
 }

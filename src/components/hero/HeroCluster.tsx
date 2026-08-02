@@ -464,8 +464,8 @@ for (const d of DRIFTERS) useGLTF.preload(d.file);
 useGLTF.preload(MOON_FILE);
 if (BRUSH_ENABLED) useGLTF.preload(BRUSH_FILE);
 
-function makeFlowTarget() {
-  return new WebGLRenderTarget(FLOW_SIZE, FLOW_SIZE, {
+function makeFlowTarget(size: number = FLOW_SIZE) {
+  return new WebGLRenderTarget(size, size, {
     type: HalfFloatType,
     magFilter: LinearFilter,
     minFilter: LinearFilter,
@@ -630,7 +630,13 @@ const BRUSH_TARGET = new Vector3();
 
 const BRUSH_Z = 1.05;
 
-function Cluster() {
+function Cluster({ lowPower }: { lowPower?: boolean }) {
+  const flowSize = lowPower ? 160 : FLOW_SIZE;
+  // On the mobile in-flow layout the canvas is its own dedicated frame
+  // (no type column sharing the same canvas to dodge), so the cluster
+  // should fill and center in it instead of reserving the desktop's
+  // right-hand SCENE_COLUMN.
+  const centered = lowPower;
   const groupRef = useRef<Group>(null);
   const drifterRefs = useRef<(Group | null)[]>([]);
   const moonRef = useRef<Group | null>(null);
@@ -750,8 +756,8 @@ function Cluster() {
     last: new Vector2(0.5, 0.5),
     vel: new Vector2(0, 0),
     prime: true,
-    read: makeFlowTarget(),
-    write: makeFlowTarget(),
+    read: makeFlowTarget(flowSize),
+    write: makeFlowTarget(flowSize),
     resolution: new Vector2(1, 1),
     pigment: 0,
     paintT: 0,
@@ -795,9 +801,13 @@ function Cluster() {
     const s = sim.current;
     s.time += step;
 
-    const columnW = state.viewport.width * SCENE_COLUMN;
+    const columnW = centered
+      ? state.viewport.width
+      : state.viewport.width * SCENE_COLUMN;
     const fit = (0.85 * Math.min(columnW, state.viewport.height)) / 2;
-    const offsetX = (state.viewport.width * (1 - SCENE_COLUMN)) / 2;
+    const offsetX = centered
+      ? 0
+      : (state.viewport.width * (1 - SCENE_COLUMN)) / 2;
     group.scale.setScalar(fit);
     group.position.x = offsetX;
 
@@ -1133,15 +1143,19 @@ function Cluster() {
   );
 }
 
-export default function HeroCluster() {
+export default function HeroCluster({ lowPower }: { lowPower?: boolean }) {
   return (
     <Canvas
       camera={{ position: [0, 0, 4.1], fov: 45 }}
-      dpr={[1, 1.75]}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      dpr={lowPower ? [1, 1.25] : [1, 1.75]}
+      gl={{
+        antialias: !lowPower,
+        alpha: true,
+        powerPreference: "high-performance",
+      }}
       style={{ background: "transparent" }}
     >
-      <Cluster />
+      <Cluster lowPower={lowPower} />
     </Canvas>
   );
 }

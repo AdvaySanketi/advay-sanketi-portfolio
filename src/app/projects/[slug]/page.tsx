@@ -79,7 +79,7 @@ export default function ProjectPage({ params }: Params) {
       />
 
       {/* ---------------------------------------------------------- Header */}
-      <header className="shell pt-36 md:pt-44">
+      <header className="shell pt-24 md:pt-44">
         <Link href="/projects" className="label link-wipe inline-block">
           ← Work
         </Link>

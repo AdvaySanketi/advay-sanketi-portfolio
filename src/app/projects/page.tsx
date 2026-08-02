@@ -46,7 +46,7 @@ export default function ProjectsPage() {
         }}
       />
 
-      <section className="shell pt-36 md:pt-48">
+      <section className="shell pt-24 md:pt-48">
         <div className="flex items-end justify-between gap-6 pb-12">
           <SplitText as="h1" text="Work" className="display block" trigger="mount" />
           <span className="label pb-4">

@@ -93,6 +93,23 @@ html.lenis body {
     font-size: clamp(2.25rem, 6vw, 4.5rem);
   }
 
+  /* Footer email — same as .display on desktop, but scales down below the
+     md breakpoint so long addresses stay on one line on phones instead of
+     wrapping at the fixed 3rem floor. */
+  .display-email {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    font-size: clamp(3rem, 11vw, 10.5rem);
+  }
+
+  @media (max-width: 767px) {
+    .display-email {
+      font-size: clamp(2.25rem, 11.5vw, 5.5rem);
+    }
+  }
+
   /* Small tracked-out label — the "(01)" / "SELECTED WORK" register. */
   .label {
     font-family: var(--font-mono);

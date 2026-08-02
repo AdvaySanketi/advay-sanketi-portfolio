@@ -38,29 +38,38 @@ export default function AboutPage() {
       />
 
       {/* --------------------------------------------------------- Intro */}
-      <section className="shell pt-36 md:pt-48">
-        <SplitText as="h1" text="About" className="display block" trigger="mount" />
+      <section className="shell pt-24 md:pt-48">
+        <SplitText
+          as="h1"
+          text="About"
+          className="display hidden md:block"
+          trigger="mount"
+        />
 
-        <div className="mt-16 grid gap-12 border-t border-rule pt-12 md:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] md:gap-20">
+        <div className="grid gap-12 md:mt-16 md:border-t md:border-rule md:pt-12 md:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] md:gap-20">
           <Reveal>
             <div className="flex flex-col gap-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={site.avatar}
                 alt={site.name}
-                className="aspect-square w-40 rounded-full border border-rule object-cover"
+                className="mx-auto block aspect-square w-32 rounded-full border border-rule object-cover md:mx-0 md:w-40"
               />
-              <div>
-                <p className="label">Based in</p>
-                <p className="mt-1.5 text-sm">{site.location}</p>
+
+              <div className="grid grid-cols-2 gap-6 md:flex md:flex-col">
+                <div>
+                  <p className="label">Based in</p>
+                  <p className="mt-1.5 text-sm">{site.location}</p>
+                </div>
+                <div>
+                  <p className="label">Languages</p>
+                  <p className="mt-1.5 text-sm">{site.languages.join(", ")}</p>
+                </div>
               </div>
-              <div>
-                <p className="label">Languages</p>
-                <p className="mt-1.5 text-sm">{site.languages.join(", ")}</p>
-              </div>
+
               <div>
                 <p className="label">Elsewhere</p>
-                <ul className="mt-1.5 flex flex-col gap-1.5">
+                <ul className="mt-1.5 flex flex-wrap gap-x-6 gap-y-1.5 md:flex-col">
                   {socials.map((social) => (
                     <li key={social.name}>
                       <a

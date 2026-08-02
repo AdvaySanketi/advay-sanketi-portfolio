@@ -28,7 +28,7 @@ export function Footer() {
           <SplitText
             as="span"
             text={site.email}
-            className="display block break-words text-paper"
+            className="display-email block break-words text-paper"
           />
         </a>
 

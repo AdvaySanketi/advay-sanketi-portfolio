@@ -18,7 +18,7 @@ import {
 } from "three";
 
 import { prefersReducedMotion } from "@/lib/gsap";
-import { canUseWebGL } from "@/lib/webgl";
+import { canUseWebGL, prefersHighQuality3D } from "@/lib/webgl";
 import { SplitText } from "@/components/Reveal";
 import { TextRipple } from "@/components/effects/TextRipple";
 import {
@@ -29,8 +29,8 @@ import {
 
 const FLOW_SIZE = 220;
 
-function makeFlowTarget() {
-  return new WebGLRenderTarget(FLOW_SIZE, FLOW_SIZE, {
+function makeFlowTarget(size: number = FLOW_SIZE) {
+  return new WebGLRenderTarget(size, size, {
     type: HalfFloatType,
     magFilter: LinearFilter,
     minFilter: LinearFilter,
@@ -41,7 +41,8 @@ function makeFlowTarget() {
   });
 }
 
-function FlowRenderer() {
+function FlowRenderer({ lowPower }: { lowPower?: boolean }) {
+  const flowSize = lowPower ? 140 : FLOW_SIZE;
   const gl = useThree((state) => state.gl);
   const size = useThree((state) => state.size);
   const dpr = useThree((state) => state.viewport.dpr);
@@ -97,10 +98,10 @@ function FlowRenderer() {
       stampScene,
       displayMaterial,
       displayScene,
-      read: makeFlowTarget(),
-      write: makeFlowTarget(),
+      read: makeFlowTarget(flowSize),
+      write: makeFlowTarget(flowSize),
     };
-  }, [textTexture]);
+  }, [textTexture, flowSize]);
 
   useEffect(() => {
     const previous = gl.getRenderTarget();
@@ -196,25 +197,25 @@ const FlowCanvas = dynamic(() => Promise.resolve(FlowCanvasImpl), {
   ssr: false,
 });
 
-function FlowCanvasImpl() {
+function FlowCanvasImpl({ lowPower }: { lowPower?: boolean }) {
   return (
     <Canvas
-      dpr={[1, 2]}
+      dpr={lowPower ? [1, 1.5] : [1, 2]}
       gl={{
         alpha: true,
-        antialias: true,
+        antialias: !lowPower,
         premultipliedAlpha: false,
         powerPreference: "high-performance",
       }}
       style={{ background: "transparent" }}
       camera={{ position: [0, 0, 1] }}
     >
-      <FlowRenderer />
+      <FlowRenderer lowPower={lowPower} />
     </Canvas>
   );
 }
 
-function FlowName() {
+function FlowName({ lowPower }: { lowPower?: boolean }) {
   return (
     <h1 className="display relative isolate" aria-label="Advay Sanketi">
       <span aria-hidden className="block text-transparent">
@@ -224,7 +225,7 @@ function FlowName() {
         Sanketi
       </span>
       <span aria-hidden className="absolute inset-0 block">
-        <FlowCanvas />
+        <FlowCanvas lowPower={lowPower} />
       </span>
     </h1>
   );
@@ -255,14 +256,12 @@ function FallbackName() {
 
 export function HeroName() {
   const [enabled, setEnabled] = useState(false);
+  const [lowPower, setLowPower] = useState(false);
 
   useEffect(() => {
-    setEnabled(
-      window.matchMedia("(min-width: 768px) and (pointer: fine)").matches &&
-        !prefersReducedMotion() &&
-        canUseWebGL()
-    );
+    setEnabled(!prefersReducedMotion() && canUseWebGL());
+    setLowPower(!prefersHighQuality3D());
   }, []);
 
-  return enabled ? <FlowName /> : <FallbackName />;
+  return enabled ? <FlowName lowPower={lowPower} /> : <FallbackName />;
 }

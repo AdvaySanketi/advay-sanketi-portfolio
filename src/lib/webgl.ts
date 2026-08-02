@@ -11,3 +11,8 @@ export function canUseWebGL(): boolean {
     return false;
   }
 }
+
+export function prefersHighQuality3D(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(min-width: 768px) and (pointer: fine)").matches;
+}
