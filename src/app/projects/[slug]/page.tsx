@@ -148,7 +148,7 @@ export default function ProjectPage({ params }: Params) {
       ) : null}
 
       {/* --------------------------------------------------------- Article */}
-      <div className="shell mt-20 grid gap-14 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-20">
+      <div className="shell mt-20 grid grid-cols-[minmax(0,1fr)] gap-14 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-20">
         <aside className="hidden lg:block">
           <ArticleToc entries={toc} />
         </aside>
